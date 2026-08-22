@@ -13,7 +13,6 @@ interface MongooseConnection {
 
 // Global interface expansion for caching
 declare global {
-  // eslint-disable-next-line no-var
   var mongoose: MongooseConnection | undefined;
 }
 

@@ -2,19 +2,20 @@
 
 import React, { useState } from 'react';
 import { IProduct } from '@/lib/mockData';
+import { resolveDisplayImages } from '@/lib/images';
 import ProductCard from '@/components/ProductCard';
+import ProductImageView from '@/components/ProductImageView';
 import { useCartStore } from '@/lib/store';
-import { 
-  ShoppingCart, 
-  Flame, 
-  Sparkles, 
-  Check, 
-  ShieldAlert, 
-  Star, 
-  ChevronUp, 
+import {
+  ShoppingCart,
+  Flame,
+  Sparkles,
+  Check,
+  ShieldAlert,
+  Star,
+  ChevronUp,
   ChevronDown,
-  MessageSquare,
-  Package
+  MessageSquare
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -30,7 +31,10 @@ export default function ProductDetailClient({
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [activeTab, setActiveTab] = useState<'desc' | 'info' | 'safety'>('desc');
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const addToCart = useCartStore((state) => state.addToCart);
+
+  const galleryImages = resolveDisplayImages(product);
 
   const discountPercent = product.mrp > product.sellingPrice
     ? Math.round(((product.mrp - product.sellingPrice) / product.mrp) * 100)
@@ -65,32 +69,57 @@ export default function ProductDetailClient({
     <div className="space-y-16">
       {/* Product Summary Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        {/* Left Side: Product Image Display */}
-        <div className="glass-card rounded-2xl overflow-hidden border border-white/5 relative aspect-square bg-charcoal-950 shadow-2xl flex items-center justify-center">
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-transparent to-transparent opacity-80 z-10" />
+        {/* Left Side: Product Image Gallery */}
+        <div className="space-y-4">
+          <div className="glass-card rounded-2xl overflow-hidden border border-white/5 relative aspect-square bg-charcoal-950 shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-transparent to-transparent opacity-80 z-10 pointer-events-none" />
 
-          {/* Fallback Premium Graphic */}
-          <div className="absolute inset-0 bg-charcoal-800 flex items-center justify-center border border-white/5">
-            <Package className="w-24 h-24 stroke-[1.5] text-charcoal-600" />
+            <div className="absolute inset-0 p-6 z-[5]">
+              <ProductImageView
+                product={product}
+                index={activeImageIndex}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                fit="contain"
+              />
+            </div>
+
+            {/* Discount percentage tag */}
+            {discountPercent > 0 && (
+              <span className="absolute top-4 left-4 z-20 bg-gradient-to-r from-red-650 to-orange-650 text-white font-bold px-3 py-1 rounded-md text-xs shadow-md tracking-wider uppercase">
+                {discountPercent}% OFF
+              </span>
+            )}
           </div>
 
-          {/* Render image overlay */}
-          {product.images && product.images[0] && (
-            <img
-              src={product.images[0]}
-              alt={product.name}
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
-              }}
-              className="absolute inset-0 w-full h-full object-cover z-10 opacity-95"
-            />
+          {galleryImages.length > 1 && (
+            <div className="flex gap-3 overflow-x-auto pb-1">
+              {galleryImages.map((image, idx) => (
+                <button
+                  key={`${image.url}-${idx}`}
+                  onClick={() => setActiveImageIndex(idx)}
+                  aria-label={`View image ${idx + 1} of ${product.name}`}
+                  className={`relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border bg-charcoal-950 transition-all cursor-pointer ${
+                    activeImageIndex === idx
+                      ? 'border-gold-500 glow-gold'
+                      : 'border-white/10 hover:border-gold-500/40'
+                  }`}
+                >
+                  <ProductImageView
+                    product={product}
+                    index={idx}
+                    sizes="80px"
+                    fit="cover"
+                    compact
+                  />
+                </button>
+              ))}
+            </div>
           )}
 
-          {/* Discount percentage tag */}
-          {discountPercent > 0 && (
-            <span className="absolute top-4 left-4 z-20 bg-gradient-to-r from-red-650 to-orange-650 text-white font-bold px-3 py-1 rounded-md text-xs shadow-md tracking-wider uppercase">
-              {discountPercent}% OFF
-            </span>
+          {galleryImages.length === 0 && (
+            <p className="text-xs text-charcoal-400 text-center tracking-wide uppercase">
+              Product photography coming soon
+            </p>
           )}
         </div>
 
@@ -243,13 +272,13 @@ export default function ProductDetailClient({
         {/* Navigation buttons */}
         <div className="flex border-b border-white/5 overflow-x-auto">
           {[
-            { id: 'desc', label: 'Product Description' },
-            { id: 'info', label: 'Product Information' },
-            { id: 'safety', label: 'Safety Guidelines' },
+            { id: 'desc' as const, label: 'Product Description' },
+            { id: 'info' as const, label: 'Product Information' },
+            { id: 'safety' as const, label: 'Safety Guidelines' },
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id)}
               className={`text-sm font-bold uppercase tracking-wider py-3.5 px-6 border-b-2 transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === tab.id
                   ? 'border-gold-500 text-gold-500 font-bold bg-gold-500/5'

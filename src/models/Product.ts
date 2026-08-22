@@ -5,7 +5,7 @@ export interface IProductDocument extends Document {
   slug: string;
   description: string;
   category: string;
-  images: string[];
+  images: { url: string; alt?: string; isPrimary?: boolean }[] | string[];
   mrp: number;
   sellingPrice: number;
   stock: number;
@@ -23,7 +23,7 @@ const ProductSchema = new Schema<IProductDocument>(
     slug: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
-    images: { type: [String], required: true },
+    images: { type: Schema.Types.Mixed, required: true },
     mrp: { type: Number, required: true },
     sellingPrice: { type: Number, required: true },
     stock: { type: Number, required: true, default: 0 },

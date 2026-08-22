@@ -3,9 +3,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, Package } from 'lucide-react';
+import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
 import { toast } from 'sonner';
+import ProductImageView from './ProductImageView';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -79,20 +80,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     <div key={item.product._id} className="flex gap-4">
                       {/* Image */}
                       <div className="w-20 h-20 bg-charcoal-800 rounded-lg overflow-hidden shrink-0 border border-white/5 relative">
-                        {item.product.images && item.product.images[0] ? (
-                          <img
-                            src={item.product.images[0]}
-                            alt={item.product.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              (e.target as HTMLElement).style.display = 'none';
-                            }}
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-charcoal-800 text-charcoal-600">
-                            <Package className="w-8 h-8 stroke-[1.5]" />
-                          </div>
-                        )}
+                        <ProductImageView
+                          product={item.product}
+                          sizes="80px"
+                          fit="cover"
+                          compact
+                        />
                       </div>
 
                       {/* Info */}

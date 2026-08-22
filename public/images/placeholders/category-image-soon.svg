@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="750" viewBox="0 0 600 750" role="img" aria-label="Category image coming soon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#161310"/>
+      <stop offset="1" stop-color="#0B0B0C"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.4" r="0.6">
+      <stop offset="0" stop-color="#d4a437" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#d4a437" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="750" fill="url(#bg)"/>
+  <rect width="600" height="750" fill="url(#glow)"/>
+  <rect x="22" y="22" width="556" height="706" fill="none" stroke="#d4a437" stroke-opacity="0.26" stroke-width="2" stroke-dasharray="9 11"/>
+  <g transform="translate(300 280)">
+    <g stroke="#d4a437" stroke-width="5" stroke-linecap="round" opacity="0.9">
+      <line x1="0" y1="-80" x2="0" y2="-44"/>
+      <line x1="57" y1="-57" x2="31" y2="-31"/>
+      <line x1="80" y1="0" x2="44" y2="0"/>
+      <line x1="57" y1="57" x2="31" y2="31"/>
+      <line x1="0" y1="80" x2="0" y2="44"/>
+      <line x1="-57" y1="57" x2="-31" y2="31"/>
+      <line x1="-80" y1="0" x2="-44" y2="0"/>
+      <line x1="-57" y1="-57" x2="-31" y2="-31"/>
+    </g>
+    <circle cx="0" cy="0" r="13" fill="#d4a437"/>
+    <circle cx="0" y="-98" r="5.5" fill="#f3cf6b"/>
+    <circle cx="69" cy="-69" r="5.5" fill="#f3cf6b"/>
+    <circle cx="98" cy="0" r="5.5" fill="#f3cf6b"/>
+    <circle cx="69" cy="69" r="5.5" fill="#f3cf6b"/>
+    <circle cx="0" cy="98" r="5.5" fill="#f3cf6b"/>
+    <circle cx="-69" cy="69" r="5.5" fill="#f3cf6b"/>
+    <circle cx="-98" cy="0" r="5.5" fill="#f3cf6b"/>
+    <circle cx="-69" cy="-69" r="5.5" fill="#f3cf6b"/>
+  </g>
+  <text x="300" y="470" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="7" fill="#d4a437">CATEGORY IMAGE</text>
+  <text x="300" y="514" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="20" font-weight="500" letter-spacing="9" fill="#8a8578">COMING SOON</text>
+  <text x="300" y="650" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="16" letter-spacing="6" fill="#5c584e">KS CRACKERS</text>
+</svg>

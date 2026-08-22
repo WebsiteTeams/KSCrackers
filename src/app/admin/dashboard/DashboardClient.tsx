@@ -2,21 +2,24 @@
 
 import React, { useState, useMemo } from 'react';
 import { IProduct, IOrder } from '@/lib/mockData';
-import { 
-  Package, 
-  ClipboardList, 
-  AlertTriangle, 
-  CheckCircle, 
-  Calendar, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Phone, 
-  X, 
-  Save, 
+import { ProductImage } from '@/lib/images';
+import {
+  ClipboardList,
+  AlertTriangle,
+  Calendar,
+  Plus,
+  Edit,
+  Trash2,
+  X,
+  Save,
   Eye,
   DollarSign,
-  Mail
+  Mail,
+  Star,
+  ArrowUp,
+  ArrowDown,
+  ImageIcon,
+  Link2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -39,21 +42,24 @@ export default function DashboardClient({
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
   const [orderModalOpen, setOrderModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
+  const [brokenPreviewUrls, setBrokenPreviewUrls] = useState<Record<number, boolean>>({});
 
   // Product Form states
-  const [prodForm, setProdForm] = useState({
+  const emptyProdForm = {
     name: '',
     description: '',
     category: 'sparklers',
     mrp: 0,
     sellingPrice: 0,
     stock: 0,
-    images: [''],
+    images: [] as ProductImage[],
     featured: false,
     bestSeller: false,
     isOffer: false,
     isActive: true,
-  });
+  };
+  const [prodForm, setProdForm] = useState(emptyProdForm);
+  const [imageUrlInput, setImageUrlInput] = useState('');
 
   // 3. Overview Statistics
   const stats = useMemo(() => {
@@ -72,7 +78,8 @@ export default function DashboardClient({
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
     const todayOrd = orders.filter((o) => {
-      const createdDate = new Date(o.createdAt || Date.now());
+      if (!o.createdAt) return false;
+      const createdDate = new Date(o.createdAt);
       return createdDate >= startOfToday;
     }).length;
 
@@ -87,19 +94,9 @@ export default function DashboardClient({
   // 4. Product actions
   const openAddProductModal = () => {
     setEditingProduct(null);
-    setProdForm({
-      name: '',
-      description: '',
-      category: 'sparklers',
-      mrp: 0,
-      sellingPrice: 0,
-      stock: 50,
-      images: [''],
-      featured: false,
-      bestSeller: false,
-      isOffer: false,
-      isActive: true,
-    });
+    setProdForm({ ...emptyProdForm, stock: 50 });
+    setImageUrlInput('');
+    setBrokenPreviewUrls({});
     setProductModalOpen(true);
   };
 
@@ -112,13 +109,81 @@ export default function DashboardClient({
       mrp: product.mrp,
       sellingPrice: product.sellingPrice,
       stock: product.stock,
-      images: [product.images[0] || ''],
+      images: (product.images || []).map((img) => ({ ...img })),
       featured: product.featured,
       bestSeller: product.bestSeller,
       isOffer: product.isOffer,
       isActive: product.isActive !== false,
     });
+    setImageUrlInput('');
+    setBrokenPreviewUrls({});
     setProductModalOpen(true);
+  };
+
+  // Image manager helpers
+  const handleAddImageUrl = () => {
+    const url = imageUrlInput.trim();
+    if (!url) return;
+    if (prodForm.images.some((img) => img.url === url)) {
+      toast.error('This image is already added to the gallery.');
+      return;
+    }
+    setProdForm((prev) => ({
+      ...prev,
+      images: [
+        ...prev.images,
+        { url, alt: `${prev.name || 'Product'} cracker photo`.trim(), isPrimary: prev.images.length === 0 },
+      ],
+    }));
+    setImageUrlInput('');
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setProdForm((prev) => {
+      const next = prev.images.filter((_, idx) => idx !== index).map((img, idx) => ({
+        ...img,
+        isPrimary: idx === 0,
+      }));
+      return { ...prev, images: next };
+    });
+    setBrokenPreviewUrls((prev) => {
+      const next: Record<number, boolean> = {};
+      Object.entries(prev).forEach(([key, value]) => {
+        const k = Number(key);
+        if (k < index) next[k] = value;
+        else if (k > index) next[k - 1] = value;
+      });
+      return next;
+    });
+  };
+
+  const handleMoveImage = (index: number, direction: 'up' | 'down') => {
+    setProdForm((prev) => {
+      const target = direction === 'up' ? index - 1 : index + 1;
+      if (target < 0 || target >= prev.images.length) return prev;
+      const next = [...prev.images];
+      [next[index], next[target]] = [next[target], next[index]];
+      return {
+        ...prev,
+        images: next.map((img, idx) => ({ ...img, isPrimary: idx === 0 })),
+      };
+    });
+  };
+
+  const handleSetPrimaryImage = (index: number) => {
+    setProdForm((prev) => ({
+      ...prev,
+      images: [...prev.images].map((img, idx) => ({ ...img, isPrimary: idx === index })).sort(
+        (a, b) => Number(b.isPrimary ?? false) - Number(a.isPrimary ?? false)
+      ),
+    }));
+  };
+
+  const handleImageAltChange = (index: number, alt: string) => {
+    setProdForm((prev) => ({
+      ...prev,
+      images: prev.images.map((img, idx) => (idx === index ? { ...img, alt } : img)),
+    }));
   };
 
   const handleProductSubmit = async (e: React.FormEvent) => {
@@ -132,7 +197,7 @@ export default function DashboardClient({
     const payload = {
       ...prodForm,
       mrp: prodForm.mrp || prodForm.sellingPrice, // mrp equals selling price if empty
-      images: prodForm.images[0] ? prodForm.images : ['/images/placeholder.webp'],
+      images: prodForm.images,
     };
 
     const isEdit = editingProduct !== null;
@@ -243,13 +308,13 @@ export default function DashboardClient({
       {/* Navigation tabs */}
       <div className="flex border-b border-white/5 space-x-6">
         {[
-          { id: 'overview', label: 'Management Overview', count: null },
-          { id: 'products', label: 'Product Catalog', count: products.length },
-          { id: 'orders', label: 'Orders Queue', count: orders.length },
+          { id: 'overview' as const, label: 'Management Overview', count: null },
+          { id: 'products' as const, label: 'Product Catalog', count: products.length },
+          { id: 'orders' as const, label: 'Orders Queue', count: orders.length },
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id)}
             className={`text-sm font-bold uppercase tracking-wider py-3 border-b-2 transition-all cursor-pointer whitespace-nowrap ${
               activeTab === tab.id
                 ? 'border-gold-500 text-gold-500 font-bold'
@@ -641,15 +706,148 @@ export default function DashboardClient({
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-charcoal-400">Image Web Address / Path</label>
-                <input
-                  type="text"
-                  placeholder="e.g. /images/rocket.webp or external link"
-                  value={prodForm.images[0]}
-                  onChange={(e) => setProdForm({ ...prodForm, images: [e.target.value] })}
-                  className="w-full bg-charcoal-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-gold-500 placeholder-charcoal-600"
-                />
+              <div className="space-y-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-charcoal-400 flex items-center gap-1.5">
+                  <ImageIcon className="w-3.5 h-3.5 text-gold-500" />
+                  Product Images ({prodForm.images.length})
+                </label>
+
+                <div className="flex gap-2">
+                  <div className="relative flex-grow">
+                    <Link2 className="w-4 h-4 text-charcoal-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      placeholder="/images/products/sparklers/my-product.webp or https://..."
+                      value={imageUrlInput}
+                      onChange={(e) => setImageUrlInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleAddImageUrl();
+                        }
+                      }}
+                      className="w-full bg-charcoal-900 border border-white/10 rounded-lg py-2.5 pl-9 pr-3 text-sm text-white focus:outline-none focus:border-gold-500 placeholder-charcoal-600"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddImageUrl}
+                    className="bg-charcoal-800 hover:bg-charcoal-700 border border-white/10 hover:border-gold-500/30 text-gold-500 px-4 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shrink-0"
+                  >
+                    Add
+                  </button>
+                </div>
+
+                {prodForm.images.length === 0 ? (
+                  <p className="text-[11px] text-charcoal-450 bg-charcoal-900 border border-dashed border-white/10 rounded-lg p-4 text-center leading-relaxed">
+                    No images yet. Storefront will show a branded &quot;image coming soon&quot; panel until a real photo is added.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {prodForm.images.map((img, index) => (
+                      <div
+                        key={`${img.url}-${index}`}
+                        className={`flex items-center gap-3 bg-charcoal-900 border rounded-lg p-2.5 ${
+                          img.isPrimary ? 'border-gold-500/40' : 'border-white/5'
+                        }`}
+                      >
+                        {/* Preview */}
+                        <div className="w-14 h-14 relative bg-charcoal-950 rounded-md overflow-hidden shrink-0 border border-white/5">
+                          {!brokenPreviewUrls[index] ? (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                              src={img.url}
+                              alt={img.alt || `Preview ${index + 1}`}
+                              onError={() =>
+                                setBrokenPreviewUrls((prev) => ({ ...prev, [index]: true }))
+                              }
+                              onLoad={() =>
+                                setBrokenPreviewUrls((prev) => {
+                                  if (!prev[index]) return prev;
+                                  const next = { ...prev };
+                                  delete next[index];
+                                  return next;
+                                })
+                              }
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center bg-charcoal-900">
+                              <ImageIcon className="w-5 h-5 text-red-400/70" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Alt + path */}
+                        <div className="flex-grow min-w-0 space-y-1.5">
+                          <input
+                            type="text"
+                            value={img.alt}
+                            onChange={(e) => handleImageAltChange(index, e.target.value)}
+                            placeholder="Alt text describing this product photo"
+                            className="w-full bg-charcoal-850 border border-white/10 rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-gold-500 placeholder-charcoal-600"
+                          />
+                          <span className="block text-[10px] text-charcoal-500 truncate">
+                            {img.url}
+                          </span>
+                          {brokenPreviewUrls[index] && (
+                            <span className="block text-[10px] text-red-400 font-semibold uppercase tracking-wide">
+                              File not found - check the path
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Controls */}
+                        <div className="flex items-center gap-1 shrink-0">
+                          {img.isPrimary ? (
+                            <span className="bg-gold-500/10 border border-gold-500/30 text-gold-500 text-[8px] font-bold px-1.5 py-0.5 rounded uppercase tracking-widest flex items-center gap-0.5">
+                              <Star className="w-2.5 h-2.5 fill-current" />
+                              Primary
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => handleSetPrimaryImage(index)}
+                              title="Set as primary image"
+                              className="p-1.5 text-charcoal-400 hover:text-gold-500 transition-colors cursor-pointer"
+                            >
+                              <Star className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => handleMoveImage(index, 'up')}
+                            disabled={index === 0}
+                            title="Move up"
+                            className="p-1.5 text-charcoal-400 hover:text-white transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                          >
+                            <ArrowUp className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleMoveImage(index, 'down')}
+                            disabled={index === prodForm.images.length - 1}
+                            title="Move down"
+                            className="p-1.5 text-charcoal-400 hover:text-white transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                          >
+                            <ArrowDown className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveImage(index)}
+                            title="Remove image"
+                            className="p-1.5 text-charcoal-400 hover:text-red-400 transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <p className="text-[10px] text-charcoal-500 leading-relaxed">
+                      First image is the primary product photo shown on cards and cart. Order below defines gallery sequence.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Toggles */}
@@ -729,7 +927,9 @@ export default function DashboardClient({
                   Order Details: {selectedOrder.orderNumber}
                 </h3>
                 <span className="text-[10px] text-charcoal-450 block mt-0.5">
-                  Logged on: {new Date(selectedOrder.createdAt || Date.now()).toLocaleString()}
+                  {selectedOrder.createdAt
+                    ? `Logged on: ${new Date(selectedOrder.createdAt).toLocaleString()}`
+                    : 'Log time unavailable'}
                 </span>
               </div>
               <button onClick={() => setOrderModalOpen(false)} className="text-charcoal-400 hover:text-white">

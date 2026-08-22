@@ -3,12 +3,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { useCartStore } from '@/lib/store';
-import { 
-  Trash2, 
-  ShoppingBag, 
-  ArrowRight, 
-  ArrowLeft, 
-  Plus, 
+import ProductImageView from '@/components/ProductImageView';
+import {
+  Trash2,
+  ShoppingBag,
+  ArrowRight,
+  ArrowLeft,
+  Plus,
   Minus,
   Sparkles,
   Percent
@@ -41,18 +42,6 @@ export default function CartPage() {
   const handleRemove = (productId: string, name: string) => {
     removeFromCart(productId);
     toast.success(`${name} removed from cart.`);
-  };
-
-  // Helper for mock graphic background
-  const getIllustrationBg = (slug: string) => {
-    if (slug.includes('sparkler')) return { icon: '✨', bg: 'from-amber-600/30 to-yellow-500/20' };
-    if (slug.includes('pot')) return { icon: '🌋', bg: 'from-orange-600/30 to-amber-600/20' };
-    if (slug.includes('rocket')) return { icon: '🚀', bg: 'from-red-600/30 to-orange-500/20' };
-    if (slug.includes('chakkar')) return { icon: '🌀', bg: 'from-yellow-600/30 to-amber-500/20' };
-    if (slug.includes('fountain')) return { icon: '⛲', bg: 'from-teal-600/30 to-blue-500/20' };
-    if (slug.includes('gift')) return { icon: '🎁', bg: 'from-purple-600/30 to-pink-500/20' };
-    if (slug.includes('kids')) return { icon: '🧸', bg: 'from-green-600/30 to-emerald-500/20' };
-    return { icon: '💥', bg: 'from-amber-700/30 to-orange-600/20' };
   };
 
   if (items.length === 0) {
@@ -94,7 +83,6 @@ export default function CartPage() {
         <div className="lg:col-span-2 space-y-4">
           <div className="glass-card border border-white/5 rounded-2xl overflow-hidden p-6 space-y-6 shadow-lg">
             {items.map((item) => {
-              const illustration = getIllustrationBg(item.product.slug);
               return (
                 <div
                   key={item.product._id}
@@ -102,21 +90,13 @@ export default function CartPage() {
                 >
                   {/* Thumbnail and Title */}
                   <div className="flex items-center space-x-4">
-                    {/* Thumbnail graphic fallback */}
-                    <div className="w-20 h-20 relative bg-charcoal-950 rounded-xl overflow-hidden shrink-0 border border-white/5 flex items-center justify-center">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${illustration.bg} flex items-center justify-center text-3xl select-none`}>
-                        {illustration.icon}
-                      </div>
-                      {item.product.images && item.product.images[0] && (
-                        <img
-                          src={item.product.images[0]}
-                          alt={item.product.name}
-                          onError={(e) => {
-                            (e.target as HTMLElement).style.display = 'none';
-                          }}
-                          className="absolute inset-0 w-full h-full object-cover z-10 opacity-90"
-                        />
-                      )}
+                    <div className="w-20 h-20 relative bg-charcoal-950 rounded-xl overflow-hidden shrink-0 border border-white/5">
+                      <ProductImageView
+                        product={item.product}
+                        sizes="80px"
+                        fit="cover"
+                        compact
+                      />
                     </div>
 
                     <div className="space-y-1">

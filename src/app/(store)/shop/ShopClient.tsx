@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { IProduct, CATEGORIES } from '@/lib/mockData';
+import React, { useState, useMemo } from 'react';
+import { IProduct } from '@/lib/mockData';
+import { CATEGORIES } from '@/lib/images';
 import ProductCard from '@/components/ProductCard';
-import { 
-  SlidersHorizontal, 
-  Search, 
-  X, 
-  RotateCcw, 
-  Check, 
-  ChevronDown 
+import {
+  SlidersHorizontal,
+  Search,
+  X,
+  RotateCcw
 } from 'lucide-react';
 
 interface ShopClientProps {
@@ -28,20 +27,35 @@ export default function ShopClient({
   // 1. Filtering & Sorting States
   const [category, setCategory] = useState(initialCategory);
   const [search, setSearch] = useState(initialSearch);
-  const [maxPrice, setMaxPrice] = useState(12000);
+  const [selectedMaxPrice, setSelectedMaxPrice] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState('bestseller');
   const [inStockOnly, setInStockOnly] = useState(false);
   const [onlyOffers, setOnlyOffers] = useState(initialFilter === 'offers');
-  
+
   // Mobile filter drawer state
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  // Sync states if initial values change
-  useEffect(() => {
+  // Sync states if initial values change (render-time adjustment)
+  const [lastInitial, setLastInitial] = useState({
+    category: initialCategory,
+    search: initialSearch,
+    filter: initialFilter,
+  });
+  if (
+    lastInitial.category !== initialCategory ||
+    lastInitial.search !== initialSearch ||
+    lastInitial.filter !== initialFilter
+  ) {
+    setLastInitial({
+      category: initialCategory,
+      search: initialSearch,
+      filter: initialFilter,
+    });
     setCategory(initialCategory);
     setSearch(initialSearch);
     setOnlyOffers(initialFilter === 'offers');
-  }, [initialCategory, initialSearch, initialFilter]);
+    setSelectedMaxPrice(null);
+  }
 
   // Determine the highest price dynamically to set slider max
   const absoluteMaxPrice = useMemo(() => {
@@ -49,10 +63,7 @@ export default function ShopClient({
     return Math.max(...products.map(p => p.sellingPrice), 10000);
   }, [products]);
 
-  // Set default slider value
-  useEffect(() => {
-    setMaxPrice(absoluteMaxPrice);
-  }, [absoluteMaxPrice]);
+  const maxPrice = selectedMaxPrice ?? absoluteMaxPrice;
 
   // 2. Perform Dynamic Filtering & Sorting
   const filteredProducts = useMemo(() => {
@@ -109,7 +120,7 @@ export default function ShopClient({
   const handleResetFilters = () => {
     setCategory('all');
     setSearch('');
-    setMaxPrice(absoluteMaxPrice);
+    setSelectedMaxPrice(null);
     setSortBy('bestseller');
     setInStockOnly(false);
     setOnlyOffers(false);
@@ -214,7 +225,7 @@ export default function ShopClient({
               max={absoluteMaxPrice}
               step="50"
               value={maxPrice}
-              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              onChange={(e) => setSelectedMaxPrice(Number(e.target.value))}
               className="w-full accent-gold-500 bg-charcoal-800 rounded-lg appearance-none h-1 cursor-pointer"
             />
             <div className="flex justify-between text-[10px] text-charcoal-400 font-medium">
@@ -306,7 +317,7 @@ export default function ShopClient({
               </div>
               <h3 className="text-xl font-bold text-white">No Crackers Found</h3>
               <p className="text-sm text-charcoal-400 leading-relaxed font-medium">
-                We couldn't find matches matching your filters. Try resetting preferences or expanding search criteria.
+                We couldn&apos;t find matches matching your filters. Try resetting preferences or expanding search criteria.
               </p>
               <button
                 onClick={handleResetFilters}
@@ -390,7 +401,7 @@ export default function ShopClient({
                   max={absoluteMaxPrice}
                   step="50"
                   value={maxPrice}
-                  onChange={(e) => setMaxPrice(Number(e.target.value))}
+                  onChange={(e) => setSelectedMaxPrice(Number(e.target.value))}
                   className="w-full accent-gold-500 bg-charcoal-800 rounded-lg appearance-none h-1 cursor-pointer"
                 />
               </div>

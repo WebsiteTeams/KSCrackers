@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Flame, Sparkles, Check, ChevronUp, ChevronDown, Package } from 'lucide-react';
+import { ShoppingCart, Flame, Sparkles, Check, ChevronUp, ChevronDown } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
 import { IProduct } from '@/lib/mockData';
 import { toast } from 'sonner';
+import ProductImageView from './ProductImageView';
 
 interface ProductCardProps {
   product: IProduct;
@@ -95,24 +96,14 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-transparent to-transparent opacity-60 z-10" />
         <div className="absolute inset-0 bg-gold-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-        {/* Fallback Premium Graphic */}
-        <div className="absolute inset-0 bg-charcoal-800 flex items-center justify-center text-charcoal-600 group-hover:scale-110 transition-transform duration-500 border border-white/5">
-          <Package className="w-12 h-12 stroke-[1.5]" />
-        </div>
-
-        {/* Real Product Image (if it exists, absolute positioned overlay) */}
-        {product.images && product.images[0] && (
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            onError={(e) => {
-              // Hide image if fails and let fallback graphic show
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-            className="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 z-10 opacity-90"
-            loading="lazy"
+        {/* Product's own image with validated fallback */}
+        <div className="absolute inset-0 z-[5] p-2">
+          <ProductImageView
+            product={product}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            fit="contain"
           />
-        )}
+        </div>
       </Link>
 
       {/* Content Area */}

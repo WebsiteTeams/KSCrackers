@@ -83,7 +83,7 @@ export default function CheckoutPage() {
           name: item.product.name,
           price: item.product.sellingPrice,
           quantity: item.quantity,
-          image: item.product.images[0] || '',
+          image: item.product.images?.[0]?.url ?? '',
         })),
         subtotal: originalTotal,
         discount: discountTotal,

@@ -4,9 +4,13 @@
       "name": "1000 Wala Crackers",
       "slug": "1000-wala-crackers",
       "description": "Experience the grand sound of traditional celebrations. Handcrafted with high-quality charcoal and potassium compounds to deliver a continuous, rhythmic cadence of vibrant sounds. Perfect for welcoming the festive spirit.",
-      "category": "ground-chakkars",
+      "category": "sparklers",
       "images": [
-        "/images/1000-wala.webp"
+        {
+          "url": "/images/products/sparklers/1000-wala-crackers.svg",
+          "alt": "1000 Wala Crackers sparkler crackers",
+          "isPrimary": true
+        }
       ],
       "mrp": 1200,
       "sellingPrice": 750,
@@ -25,7 +29,11 @@
       "description": "Sparkling golden lights that create a serene and magical ambience. Specially formulated low-smoke sparklers that emit brilliant star-like sparks for over 60 seconds. Extremely safe for family celebrations.",
       "category": "sparklers",
       "images": [
-        "/images/sparklers.webp"
+        {
+          "url": "/images/products/sparklers/golden-sparklers-30cm.svg",
+          "alt": "Golden Sparklers (30cm) sparkler crackers",
+          "isPrimary": true
+        }
       ],
       "mrp": 200,
       "sellingPrice": 99,
@@ -44,7 +52,11 @@
       "description": "A premium classic pot that shoots a fountain of gold sparks high into the night sky, blooming like a massive radiant tree. Sturdily built base to prevent tipping and ensure safety.",
       "category": "flower-pots",
       "images": [
-        "/images/flower-pot.webp"
+        {
+          "url": "/images/products/flower-pots/flower-pot-deluxe.svg",
+          "alt": "Flower Pot Deluxe flower pot cracker",
+          "isPrimary": true
+        }
       ],
       "mrp": 450,
       "sellingPrice": 280,
@@ -63,7 +75,11 @@
       "description": "Watch your celebrations soar high into the dark. Rockets ascend straight and burst into spectacular clusters of red, green, and gold peony effects that light up the entire neighborhood.",
       "category": "rockets",
       "images": [
-        "/images/rocket.webp"
+        {
+          "url": "/images/products/rockets/sky-shot-rocket-multi-color.svg",
+          "alt": "Sky Shot Rocket (Multi-Color) sky rocket cracker",
+          "isPrimary": true
+        }
       ],
       "mrp": 800,
       "sellingPrice": 499,
@@ -82,7 +98,11 @@
       "description": "Rapidly spinning discs of pure golden sparks that spin smoothly on flat surfaces. Features a balanced center core for vibration-free spins and highly concentrated light show.",
       "category": "ground-chakkars",
       "images": [
-        "/images/chakkar.webp"
+        {
+          "url": "/images/products/ground-chakkars/spinning-wheel-ground-chakkar.svg",
+          "alt": "Spinning Wheel Ground Chakkar ground chakkar cracker",
+          "isPrimary": true
+        }
       ],
       "mrp": 300,
       "sellingPrice": 180,
@@ -101,7 +121,11 @@
       "description": "A gorgeous multi-phase fountain that starts with amber embers, transitions to crackling silver starlets, and finishes with high-intensity blue-and-gold sparks. A true centerpiece for celebrations.",
       "category": "fountains",
       "images": [
-        "/images/fountain.webp"
+        {
+          "url": "/images/products/fountains/vibrant-fountain-show.svg",
+          "alt": "Vibrant Fountain Show fountain firework",
+          "isPrimary": true
+        }
       ],
       "mrp": 600,
       "sellingPrice": 390,
@@ -120,7 +144,11 @@
       "description": "The ultimate curated festive pack containing 31 varieties of premium family-friendly firecrackers including sparklers, chakkars, pots, and whimsical novelty items. Comes in a gorgeous royal gold gift case.",
       "category": "gift-boxes",
       "images": [
-        "/images/gift-box.webp"
+        {
+          "url": "/images/products/gift-boxes/shubh-deepawali-gift-box.svg",
+          "alt": "Shubh Deepawali Gift Box (31 Items) premium cracker gift box",
+          "isPrimary": true
+        }
       ],
       "mrp": 2500,
       "sellingPrice": 1599,
@@ -139,7 +167,11 @@
       "description": "Perfect for kids! Non-explosive, fun, crackling whip cords that light up and snap safely with beautiful sparks. Provides endless fun with simple handling instructions.",
       "category": "kids-special",
       "images": [
-        "/images/kids-whip.webp"
+        {
+          "url": "/images/products/kids-special/magic-whip-crackling-sparks.svg",
+          "alt": "Magic Whip & Crackling Sparks kids special crackers",
+          "isPrimary": true
+        }
       ],
       "mrp": 150,
       "sellingPrice": 85,
@@ -158,7 +190,11 @@
       "description": "A balanced collection of ground chakkars, sparklers, flower pots, and small fountains. Curated specifically for mid-sized family yards to ensure safety and variety.",
       "category": "combos",
       "images": [
-        "/images/combo-family.webp"
+        {
+          "url": "/images/products/combos/family-combo-pack.svg",
+          "alt": "Family Combo Pack celebration combo pack",
+          "isPrimary": true
+        }
       ],
       "mrp": 3500,
       "sellingPrice": 1999,
@@ -175,9 +211,13 @@
       "name": "Kids Special Toy Crackers Pack",
       "slug": "kids-special-toy-crackers-pack",
       "description": "An assortment of extremely safe, low-smoke, heat-insulated crackers. Includes pop-pops, magic snakes, electric sparklers, and small colorful fountains. Pure joy without the loud noise.",
-      "category": "combos",
+      "category": "kids-special",
       "images": [
-        "/images/combo-kids.webp"
+        {
+          "url": "/images/products/kids-special/kids-special-toy-crackers-pack.svg",
+          "alt": "Kids Special Toy Crackers Pack kids special crackers",
+          "isPrimary": true
+        }
       ],
       "mrp": 1800,
       "sellingPrice": 1100,
@@ -196,7 +236,11 @@
       "description": "A luxury selection containing high-rise rockets, multi-effect fountains, deluxe flower pots, and digital-grade sparklers. Elevate your celebration to the next level of grandeur.",
       "category": "combos",
       "images": [
-        "/images/combo-premium.webp"
+        {
+          "url": "/images/products/combos/premium-festive-combo.svg",
+          "alt": "Premium Festive Combo celebration combo pack",
+          "isPrimary": true
+        }
       ],
       "mrp": 6000,
       "sellingPrice": 3800,
@@ -215,7 +259,11 @@
       "description": "The absolute premium package designed for large gatherings. Features multi-shot sky shells, major sound crackers, cascading gold fountains, and massive sparklers. A night sky masterclass.",
       "category": "combos",
       "images": [
-        "/images/combo-grand.webp"
+        {
+          "url": "/images/products/combos/grand-celebration-combo.svg",
+          "alt": "Grand Celebration Combo celebration combo pack",
+          "isPrimary": true
+        }
       ],
       "mrp": 12000,
       "sellingPrice": 7500,
@@ -247,7 +295,7 @@
           "name": "1000 Wala Crackers",
           "price": 750,
           "quantity": 5,
-          "image": "/images/1000-wala.webp"
+          "image": "/images/products/sparklers/1000-wala-crackers.svg"
         }
       ],
       "subtotal": 6000,
@@ -277,7 +325,7 @@
           "name": "Golden Sparklers (30cm)",
           "price": 99,
           "quantity": 1,
-          "image": "/images/sparklers.webp"
+          "image": "/images/products/sparklers/golden-sparklers-30cm.svg"
         }
       ],
       "subtotal": 200,

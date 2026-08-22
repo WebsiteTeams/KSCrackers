@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/router'; // wait, in Next.js App Router we use next/link
 import LinkNext from 'next/link';
 import { Lock, Mail, Sparkles, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';

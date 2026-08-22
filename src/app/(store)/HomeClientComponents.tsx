@@ -2,15 +2,14 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ChevronDown, 
-  Star, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  Send, 
-  MessageSquare,
+import {
+  ChevronDown,
+  Star,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Send,
   Sparkles,
   ChevronLeft,
   ChevronRight
@@ -148,7 +147,7 @@ export default function HomeClientComponents() {
 
                 {/* Review Text */}
                 <blockquote className="text-lg md:text-xl text-charcoal-200 leading-relaxed font-medium italic">
-                  "{TESTIMONIALS[activeSlide].review}"
+                  &ldquo;{TESTIMONIALS[activeSlide].review}&rdquo;
                 </blockquote>
 
                 {/* Profile */}

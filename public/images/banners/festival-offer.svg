@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="600" viewBox="0 0 1600 600" role="img" aria-label="Festive golden fireworks celebration banner">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="0.35">
+      <stop offset="0" stop-color="#171208"/>
+      <stop offset="0.5" stop-color="#100e0a"/>
+      <stop offset="1" stop-color="#0B0B0C"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d4a437" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#d4a437" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#d4a437" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="600" fill="url(#sky)"/>
+
+  <g transform="translate(1250 190)">
+    <g stroke="#d4a437" stroke-width="5" stroke-linecap="round">
+      <line x1="0" y1="-120" x2="0" y2="-74"/>
+      <line x1="85" y1="-85" x2="53" y2="-53"/>
+      <line x1="120" y1="0" x2="74" y2="0"/>
+      <line x1="85" y1="85" x2="53" y2="53"/>
+      <line x1="0" y1="120" x2="0" y2="74"/>
+      <line x1="-85" y1="85" x2="-53" y2="53"/>
+      <line x1="-120" y1="0" x2="-74" y2="0"/>
+      <line x1="-85" y1="-85" x2="-53" y2="-53"/>
+    </g>
+    <circle cx="0" cy="0" r="14" fill="#f3cf6b"/>
+    <g fill="#f3cf6b">
+      <circle cx="0" cy="-140" r="6"/><circle cx="99" cy="-99" r="6"/><circle cx="140" cy="0" r="6"/>
+      <circle cx="99" cy="99" r="6"/><circle cx="0" cy="140" r="6"/><circle cx="-99" cy="99" r="6"/>
+      <circle cx="-140" cy="0" r="6"/><circle cx="-99" cy="-99" r="6"/>
+    </g>
+  </g>
+
+  <g transform="translate(1480 420)" opacity="0.7">
+    <g stroke="#d4a437" stroke-width="3.5" stroke-linecap="round">
+      <line x1="0" y1="-80" x2="0" y2="-50"/>
+      <line x1="57" y1="-57" x2="36" y2="-36"/>
+      <line x1="80" y1="0" x2="50" y2="0"/>
+      <line x1="57" y1="57" x2="36" y2="36"/>
+      <line x1="0" y1="80" x2="0" y2="50"/>
+      <line x1="-57" y1="57" x2="-36" y2="36"/>
+      <line x1="-80" y1="0" x2="-50" y2="0"/>
+      <line x1="-57" y1="-57" x2="-36" y2="-36"/>
+    </g>
+    <circle cx="0" cy="0" r="10" fill="#f3cf6b"/>
+  </g>
+
+  <g transform="translate(180 430)" opacity="0.8">
+    <g stroke="#d4a437" stroke-width="3.5" stroke-linecap="round">
+      <line x1="0" y1="-90" x2="0" y2="-56"/>
+      <line x1="64" y1="-64" x2="40" y2="-40"/>
+      <line x1="90" y1="0" x2="56" y2="0"/>
+      <line x1="64" y1="64" x2="40" y2="40"/>
+      <line x1="0" y1="90" x2="0" y2="56"/>
+      <line x1="-64" y1="64" x2="-40" y2="40"/>
+      <line x1="-90" y1="0" x2="-56" y2="0"/>
+      <line x1="-64" y1="-64" x2="-40" y2="-40"/>
+    </g>
+    <circle cx="0" cy="0" r="11" fill="#f3cf6b"/>
+  </g>
+
+  <rect x="0" y="285" width="1600" height="10" fill="url(#ribbon)" opacity="0.6"/>
+  <rect x="0" y="330" width="1600" height="5" fill="url(#ribbon)" opacity="0.4"/>
+
+  <g fill="#f3cf6b">
+    <circle cx="320" cy="140" r="3" opacity="0.75"/><circle cx="520" cy="220" r="2.5" opacity="0.55"/>
+    <circle cx="760" cy="120" r="3" opacity="0.7"/><circle cx="900" cy="300" r="2.5" opacity="0.5"/>
+    <circle cx="1080" cy="90" r="3" opacity="0.65"/><circle cx="1340" cy="330" r="2.5" opacity="0.55"/>
+    <circle cx="240" cy="300" r="2.5" opacity="0.5"/><circle cx="620" cy="380" r="3" opacity="0.6"/>
+    <circle cx="1180" cy="480" r="2.5" opacity="0.5"/><circle cx="1420" cy="150" r="3" opacity="0.6"/>
+  </g>
+
+  <path d="M0 540 L140 522 L280 534 L420 518 L580 532 L760 516 L940 530 L1120 514 L1300 528 L1460 516 L1600 526 L1600 600 L0 600 Z" fill="#070708"/>
+</svg>

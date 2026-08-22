@@ -4,8 +4,17 @@ import { connectToDatabase } from './db';
 import Product from '@/models/Product';
 import Order from '@/models/Order';
 import { DEFAULT_PRODUCTS, IProduct, IOrder } from './mockData';
+import { normalizeProductImages, resolveDisplayImages } from './images';
+import { createLocalFileFilter } from './imageManifest';
 
 const FALLBACK_FILE_PATH = path.join(process.cwd(), 'db_fallback.json');
+
+function withNormalizedImages<T extends IProduct>(product: T): T {
+  return {
+    ...product,
+    images: normalizeProductImages(product.images, product.name, product.category),
+  };
+}
 
 // Helper to initialize fallback file if it doesn't exist
 function initFallbackDb() {
@@ -52,30 +61,55 @@ async function isDbConnected(): Promise<boolean> {
 export async function getProducts(): Promise<IProduct[]> {
   try {
     if (await isDbConnected()) {
-      return await Product.find({}).sort({ createdAt: -1 });
+      const docs = await Product.find({}).sort({ createdAt: -1 }).lean();
+      return (docs as unknown as IProduct[])
+        .map((doc) => ({ ...doc, _id: String(doc._id) }))
+        .map(withNormalizedImages);
     }
   } catch (error) {
     console.error('MongoDB error in getProducts, falling back:', error);
   }
   const db = readFallbackDb();
-  return db.products.filter(p => p.isActive !== false);
+  return db.products.filter(p => p.isActive !== false).map(withNormalizedImages);
+}
+
+export async function getStorefrontProducts(): Promise<IProduct[]> {
+  const products = await getProducts();
+  const fileFilter = createLocalFileFilter();
+  return products.map((product) => ({
+    ...product,
+    images: resolveDisplayImages(product, fileFilter),
+  }));
 }
 
 export async function getProductBySlug(slug: string): Promise<IProduct | null> {
   try {
     if (await isDbConnected()) {
-      return await Product.findOne({ slug });
+      const doc = await Product.findOne({ slug }).lean();
+      if (!doc) return null;
+      return withNormalizedImages({ ...(doc as unknown as IProduct), _id: String((doc as unknown as { _id: unknown })._id) });
     }
   } catch (error) {
     console.error(`MongoDB error in getProductBySlug for ${slug}, falling back:`, error);
   }
   const db = readFallbackDb();
-  return db.products.find((p) => p.slug === slug && p.isActive !== false) || null;
+  const found = db.products.find((p) => p.slug === slug && p.isActive !== false);
+  return found ? withNormalizedImages(found) : null;
+}
+
+export async function getStorefrontProductBySlug(slug: string): Promise<IProduct | null> {
+  const product = await getProductBySlug(slug);
+  if (!product) return null;
+  const fileFilter = createLocalFileFilter();
+  return {
+    ...product,
+    images: resolveDisplayImages(product, fileFilter),
+  };
 }
 
 export async function createProduct(productData: Omit<IProduct, '_id' | 'createdAt' | 'updatedAt'>): Promise<IProduct> {
   const slug = productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  const data = { ...productData, slug };
+  const data = withNormalizedImages({ ...productData, slug });
 
   try {
     if (await isDbConnected()) {
@@ -100,7 +134,16 @@ export async function createProduct(productData: Omit<IProduct, '_id' | 'created
 export async function updateProduct(id: string, productData: Partial<IProduct>): Promise<IProduct | null> {
   try {
     if (await isDbConnected()) {
-      return await Product.findByIdAndUpdate(id, productData, { new: true });
+      const existingDoc = await Product.findById(id).lean();
+      if (!existingDoc) return null;
+      const existing = {
+        ...(existingDoc as unknown as IProduct),
+        _id: String((existingDoc as unknown as { _id: unknown })._id),
+      };
+      const merged = withNormalizedImages({ ...existing, ...productData });
+      const { _id: _ignored, ...patchWithoutId } = merged;
+      void _ignored;
+      return await Product.findByIdAndUpdate(id, patchWithoutId, { new: true });
     }
   } catch (error) {
     console.error(`MongoDB error in updateProduct for ${id}, falling back:`, error);
@@ -110,15 +153,15 @@ export async function updateProduct(id: string, productData: Partial<IProduct>):
   const productIndex = db.products.findIndex((p) => p._id === id);
   if (productIndex === -1) return null;
 
-  const updatedProduct = {
+  const merged = withNormalizedImages({
     ...db.products[productIndex],
     ...productData,
     updatedAt: new Date().toISOString(),
-  };
+  });
 
-  db.products[productIndex] = updatedProduct;
+  db.products[productIndex] = merged;
   writeFallbackDb(db);
-  return updatedProduct;
+  return merged;
 }
 
 export async function deleteProduct(id: string): Promise<boolean> {

@@ -1,10 +1,12 @@
+import { getDefaultProductImages, ProductImage } from './images';
+
 export interface IProduct {
   _id?: string;
   name: string;
   slug: string;
   description: string;
   category: string;
-  images: string[];
+  images: ProductImage[];
   mrp: number;
   sellingPrice: number;
   stock: number;
@@ -45,24 +47,19 @@ export interface IOrder {
   updatedAt?: string | Date;
 }
 
-export const CATEGORIES = [
-  { id: 'sparklers', name: 'Sparklers', count: 12 },
-  { id: 'flower-pots', name: 'Flower Pots', count: 8 },
-  { id: 'rockets', name: 'Rockets', count: 10 },
-  { id: 'ground-chakkars', name: 'Ground Chakkars', count: 6 },
-  { id: 'fountains', name: 'Fountains', count: 9 },
-  { id: 'gift-boxes', name: 'Gift Boxes', count: 5 },
-  { id: 'kids-special', name: 'Kids Special', count: 15 },
-  { id: 'combos', name: 'Combo Packs', count: 4 },
-];
+function seedImages(slug: string, name: string, category: string): ProductImage[] {
+  const defaults = getDefaultProductImages(slug, name, category);
+  if (defaults.length > 0) return defaults;
+  return [];
+}
 
 export const DEFAULT_PRODUCTS: IProduct[] = [
   {
     name: "1000 Wala Crackers",
     slug: "1000-wala-crackers",
     description: "Experience the grand sound of traditional celebrations. Handcrafted with high-quality charcoal and potassium compounds to deliver a continuous, rhythmic cadence of vibrant sounds. Perfect for welcoming the festive spirit.",
-    category: "ground-chakkars",
-    images: ["/images/1000-wala.webp"],
+    category: "sparklers",
+    images: seedImages("1000-wala-crackers", "1000 Wala Crackers", "sparklers"),
     mrp: 1200,
     sellingPrice: 750,
     stock: 50,
@@ -76,7 +73,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "golden-sparklers-30cm",
     description: "Sparkling golden lights that create a serene and magical ambience. Specially formulated low-smoke sparklers that emit brilliant star-like sparks for over 60 seconds. Extremely safe for family celebrations.",
     category: "sparklers",
-    images: ["/images/sparklers.webp"],
+    images: seedImages("golden-sparklers-30cm", "Golden Sparklers (30cm)", "sparklers"),
     mrp: 200,
     sellingPrice: 99,
     stock: 150,
@@ -90,7 +87,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "flower-pot-deluxe",
     description: "A premium classic pot that shoots a fountain of gold sparks high into the night sky, blooming like a massive radiant tree. Sturdily built base to prevent tipping and ensure safety.",
     category: "flower-pots",
-    images: ["/images/flower-pot.webp"],
+    images: seedImages("flower-pot-deluxe", "Flower Pot Deluxe", "flower-pots"),
     mrp: 450,
     sellingPrice: 280,
     stock: 80,
@@ -104,7 +101,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "sky-shot-rocket-multi-color",
     description: "Watch your celebrations soar high into the dark. Rockets ascend straight and burst into spectacular clusters of red, green, and gold peony effects that light up the entire neighborhood.",
     category: "rockets",
-    images: ["/images/rocket.webp"],
+    images: seedImages("sky-shot-rocket-multi-color", "Sky Shot Rocket (Multi-Color)", "rockets"),
     mrp: 800,
     sellingPrice: 499,
     stock: 45,
@@ -118,7 +115,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "spinning-wheel-ground-chakkar",
     description: "Rapidly spinning discs of pure golden sparks that spin smoothly on flat surfaces. Features a balanced center core for vibration-free spins and highly concentrated light show.",
     category: "ground-chakkars",
-    images: ["/images/chakkar.webp"],
+    images: seedImages("spinning-wheel-ground-chakkar", "Spinning Wheel Ground Chakkar", "ground-chakkars"),
     mrp: 300,
     sellingPrice: 180,
     stock: 120,
@@ -132,7 +129,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "vibrant-fountain-show",
     description: "A gorgeous multi-phase fountain that starts with amber embers, transitions to crackling silver starlets, and finishes with high-intensity blue-and-gold sparks. A true centerpiece for celebrations.",
     category: "fountains",
-    images: ["/images/fountain.webp"],
+    images: seedImages("vibrant-fountain-show", "Vibrant Fountain Show", "fountains"),
     mrp: 600,
     sellingPrice: 390,
     stock: 60,
@@ -146,7 +143,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "shubh-deepawali-gift-box",
     description: "The ultimate curated festive pack containing 31 varieties of premium family-friendly firecrackers including sparklers, chakkars, pots, and whimsical novelty items. Comes in a gorgeous royal gold gift case.",
     category: "gift-boxes",
-    images: ["/images/gift-box.webp"],
+    images: seedImages("shubh-deepawali-gift-box", "Shubh Deepawali Gift Box (31 Items)", "gift-boxes"),
     mrp: 2500,
     sellingPrice: 1599,
     stock: 30,
@@ -160,7 +157,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "magic-whip-crackling-sparks",
     description: "Perfect for kids! Non-explosive, fun, crackling whip cords that light up and snap safely with beautiful sparks. Provides endless fun with simple handling instructions.",
     category: "kids-special",
-    images: ["/images/kids-whip.webp"],
+    images: seedImages("magic-whip-crackling-sparks", "Magic Whip & Crackling Sparks", "kids-special"),
     mrp: 150,
     sellingPrice: 85,
     stock: 200,
@@ -174,7 +171,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "family-combo-pack",
     description: "A balanced collection of ground chakkars, sparklers, flower pots, and small fountains. Curated specifically for mid-sized family yards to ensure safety and variety.",
     category: "combos",
-    images: ["/images/combo-family.webp"],
+    images: seedImages("family-combo-pack", "Family Combo Pack", "combos"),
     mrp: 3500,
     sellingPrice: 1999,
     stock: 25,
@@ -187,8 +184,8 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     name: "Kids Special Toy Crackers Pack",
     slug: "kids-special-toy-crackers-pack",
     description: "An assortment of extremely safe, low-smoke, heat-insulated crackers. Includes pop-pops, magic snakes, electric sparklers, and small colorful fountains. Pure joy without the loud noise.",
-    category: "combos",
-    images: ["/images/combo-kids.webp"],
+    category: "kids-special",
+    images: seedImages("kids-special-toy-crackers-pack", "Kids Special Toy Crackers Pack", "kids-special"),
     mrp: 1800,
     sellingPrice: 1100,
     stock: 40,
@@ -202,7 +199,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "premium-festive-combo",
     description: "A luxury selection containing high-rise rockets, multi-effect fountains, deluxe flower pots, and digital-grade sparklers. Elevate your celebration to the next level of grandeur.",
     category: "combos",
-    images: ["/images/combo-premium.webp"],
+    images: seedImages("premium-festive-combo", "Premium Festive Combo", "combos"),
     mrp: 6000,
     sellingPrice: 3800,
     stock: 15,
@@ -216,7 +213,7 @@ export const DEFAULT_PRODUCTS: IProduct[] = [
     slug: "grand-celebration-combo",
     description: "The absolute premium package designed for large gatherings. Features multi-shot sky shells, major sound crackers, cascading gold fountains, and massive sparklers. A night sky masterclass.",
     category: "combos",
-    images: ["/images/combo-grand.webp"],
+    images: seedImages("grand-celebration-combo", "Grand Celebration Combo", "combos"),
     mrp: 12000,
     sellingPrice: 7500,
     stock: 10,

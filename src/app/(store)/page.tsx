@@ -1,44 +1,35 @@
 import React from 'react';
 import Link from 'next/link';
-import { getProducts } from '@/lib/dataAccess';
+import Image from 'next/image';
+import { getStorefrontProducts } from '@/lib/dataAccess';
+import { CATEGORIES, bannerImages } from '@/lib/images';
 import ProductCard from '@/components/ProductCard';
-import { 
-  Sparkles, 
-  ShieldCheck, 
-  Gift, 
-  HeadphonesIcon, 
-  BadgeCheck, 
-  ArrowRight, 
+import CategoryCard from '@/components/CategoryCard';
+import CategoryCarousel from '@/components/CategoryCarousel';
+import {
+  ShieldCheck,
+  Gift,
+  HeadphonesIcon,
+  BadgeCheck,
+  ArrowRight,
   Flame,
   Award,
-  TrendingUp,
-  ShoppingBag,
-  Info,
-  Zap,
-  MessageSquare
+  ShoppingBag
 } from 'lucide-react';
-import Image from 'next/image';
 import HomeClientComponents from './HomeClientComponents';
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 60;
 
 export default async function HomePage() {
-  const allProducts = await getProducts();
-  
-  // Filter products for sections
+  const allProducts = await getStorefrontProducts();
+
   const featuredProducts = allProducts.filter(p => p.featured && p.category !== 'combos').slice(0, 4);
   const comboPacks = allProducts.filter(p => p.category === 'combos').slice(0, 4);
 
-  const categoriesList = [
-    { name: 'Sparklers', count: 12, slug: 'sparklers', image: 'https://images.unsplash.com/photo-1543880556-91901a75fc60?q=80&w=600&auto=format&fit=crop' },
-    { name: 'Flower Pots', count: 8, slug: 'flower-pots', image: 'https://images.unsplash.com/photo-1533245465961-f9c1d1a1b15f?q=80&w=600&auto=format&fit=crop' },
-    { name: 'Rockets', count: 10, slug: 'rockets', image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop' },
-    { name: 'Ground Chakkars', count: 6, slug: 'ground-chakkars', image: 'https://images.unsplash.com/photo-1498622205843-3b0ac17be8d1?q=80&w=600&auto=format&fit=crop' },
-    { name: 'Fountains', count: 9, slug: 'fountains', image: 'https://images.unsplash.com/photo-1518055118552-3dbb72bc2582?q=80&w=600&auto=format&fit=crop' },
-    { name: 'Gift Boxes', count: 5, slug: 'gift-boxes', image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop' },
-    { name: 'Kids Special', count: 15, slug: 'kids-special', image: 'https://images.unsplash.com/photo-1579768641973-c8d1973680e9?q=80&w=600&auto=format&fit=crop' },
-    { name: 'Combo Packs', count: 4, slug: 'combos', image: 'https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?q=80&w=600&auto=format&fit=crop' },
-  ];
+  const categoryCounts = allProducts.reduce<Record<string, number>>((acc, product) => {
+    acc[product.category] = (acc[product.category] || 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <div className="space-y-24 pb-20">
@@ -76,15 +67,16 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Right: Image Composition */}
-            <div className="relative aspect-square lg:aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
-              <div className="absolute inset-0 bg-charcoal-900 z-0" />
-              <img
-                src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop"
-                alt="Premium Firecracker Assortment"
-                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+            {/* Right: Celebration Composition */}
+            <div className="relative aspect-square lg:aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-charcoal-950">
+              <Image
+                src={bannerImages.hero}
+                alt="Golden firework bursts celebrating over a night sky at a KS Crackers celebration"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="absolute inset-0 object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
         </div>
@@ -131,35 +123,7 @@ export default async function HomePage() {
           <div className="w-16 h-[2px] bg-gold-500 mx-auto" />
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {categoriesList.map((cat) => (
-            <Link
-              key={cat.name}
-              href={`/shop?category=${cat.slug}`}
-              className="group block relative aspect-[4/5] rounded-xl overflow-hidden cursor-pointer"
-            >
-              <img 
-                src={cat.image} 
-                alt={cat.name}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/20 to-transparent" />
-              
-              <div className="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between">
-                <div>
-                  <h3 className="font-bold text-lg text-white uppercase tracking-wider">
-                    {cat.name}
-                  </h3>
-                  <span className="text-xs text-gold-500 font-semibold tracking-widest uppercase">
-                    {cat.count} Products
-                  </span>
-                </div>
-                <ArrowRight className="w-5 h-5 text-white opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-              </div>
-            </Link>
-          ))}
-        </div>
+        <CategoryCarousel categoryCounts={categoryCounts} className="my-8" />
       </section>
 
       {/* 4. Featured Products / Customer Favourites */}
@@ -192,13 +156,15 @@ export default async function HomePage() {
 
       {/* 5. Festival Offer Section */}
       <section id="offers" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
-        <div className="relative rounded-2xl overflow-hidden bg-charcoal-900 min-h-[400px] flex items-center">
-          <img
-            src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1600&auto=format&fit=crop"
-            alt="Festive Offers"
-            className="absolute inset-0 w-full h-full object-cover opacity-40"
+        <div className="relative rounded-2xl overflow-hidden bg-charcoal-900 min-h-[400px] flex items-center border border-white/5">
+          <Image
+            src={bannerImages.festivalOffer}
+            alt="Festive golden fireworks display for KS Crackers festival offers"
+            fill
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            className="absolute inset-0 object-cover opacity-45"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal-900 via-charcoal-900/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal-900 via-charcoal-900/80 to-transparent pointer-events-none" />
 
           <div className="relative z-10 max-w-xl p-8 md:p-16 space-y-6">
             <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight uppercase">
@@ -274,13 +240,14 @@ export default async function HomePage() {
           </div>
 
           {/* Graphical Display */}
-          <div className="relative aspect-[4/5] lg:aspect-square w-full rounded-xl overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1543880556-91901a75fc60?q=80&w=800&auto=format&fit=crop" 
-              alt="Premium Quality" 
-              className="absolute inset-0 w-full h-full object-cover opacity-90"
+          <div className="relative aspect-[4/5] lg:aspect-square w-full rounded-xl overflow-hidden border border-white/5 bg-charcoal-950">
+            <Image
+              src={bannerImages.about}
+              alt="KS Crackers Sivakasi crafted heritage emblem with golden spark"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="absolute inset-0 object-cover opacity-95"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 p-6 bg-charcoal-900/90 backdrop-blur-md rounded border border-white/10">
               <span className="text-gold-500 font-bold text-lg block mb-1">Authentic Sivakasi Sourced</span>
               <p className="text-xs text-charcoal-300">100% compliant with standard explosive safety rules.</p>

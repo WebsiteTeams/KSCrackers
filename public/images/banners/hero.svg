@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="Golden firework bursts over a night sky">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c150a"/>
+      <stop offset="0.55" stop-color="#12100b"/>
+      <stop offset="1" stop-color="#0B0B0C"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.32" r="0.7">
+      <stop offset="0" stop-color="#d4a437" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#d4a437" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="trail" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#d4a437" stop-opacity="0"/>
+      <stop offset="1" stop-color="#f3cf6b" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#sky)"/>
+  <rect width="1200" height="900" fill="url(#halo)"/>
+
+  <g stroke="#f3cf6b" stroke-width="3" fill="none" opacity="0.55">
+    <path d="M300 690 C 310 560, 280 480, 330 380"/>
+    <path d="M860 700 C 850 600, 890 520, 850 430"/>
+    <path d="M580 720 C 585 640, 565 600, 590 540"/>
+  </g>
+
+  <g transform="translate(430 320)">
+    <g stroke="#d4a437" stroke-width="6" stroke-linecap="round">
+      <line x1="0" y1="-150" x2="0" y2="-92"/>
+      <line x1="106" y1="-106" x2="65" y2="-65"/>
+      <line x1="150" y1="0" x2="92" y2="0"/>
+      <line x1="106" y1="106" x2="65" y2="65"/>
+      <line x1="0" y1="150" x2="0" y2="92"/>
+      <line x1="-106" y1="106" x2="-65" y2="65"/>
+      <line x1="-150" y1="0" x2="-92" y2="0"/>
+      <line x1="-106" y1="-106" x2="-65" y2="-65"/>
+    </g>
+    <g stroke="#8a6a1e" stroke-width="4" stroke-linecap="round" opacity="0.8">
+      <line x1="75" y1="-150" x2="46" y2="-92"/>
+      <line x1="150" y1="-75" x2="92" y2="-46"/>
+      <line x1="150" y1="75" x2="92" y2="46"/>
+      <line x1="75" y1="150" x2="46" y2="92"/>
+      <line x1="-75" y1="150" x2="-46" y2="92"/>
+      <line x1="-150" y1="75" x2="-92" y2="46"/>
+      <line x1="-150" y1="-75" x2="-92" y2="-46"/>
+      <line x1="-75" y1="-150" x2="-46" y2="-92"/>
+    </g>
+    <circle cx="0" cy="0" r="18" fill="#f3cf6b"/>
+    <g fill="#f3cf6b">
+      <circle cx="0" cy="-176" r="7"/><circle cx="124" cy="-124" r="7"/><circle cx="176" cy="0" r="7"/>
+      <circle cx="124" cy="124" r="7"/><circle cx="0" cy="176" r="7"/><circle cx="-124" cy="124" r="7"/>
+      <circle cx="-176" cy="0" r="7"/><circle cx="-124" cy="-124" r="7"/>
+    </g>
+  </g>
+
+  <g transform="translate(800 210)" opacity="0.9">
+    <g stroke="#d4a437" stroke-width="4" stroke-linecap="round">
+      <line x1="0" y1="-100" x2="0" y2="-62"/>
+      <line x1="71" y1="-71" x2="44" y2="-44"/>
+      <line x1="100" y1="0" x2="62" y2="0"/>
+      <line x1="71" y1="71" x2="44" y2="44"/>
+      <line x1="0" y1="100" x2="0" y2="62"/>
+      <line x1="-71" y1="71" x2="-44" y2="44"/>
+      <line x1="-100" y1="0" x2="-62" y2="0"/>
+      <line x1="-71" y1="-71" x2="-44" y2="-44"/>
+    </g>
+    <circle cx="0" cy="0" r="12" fill="#f3cf6b"/>
+    <g fill="#f3cf6b">
+      <circle cx="0" cy="-118" r="5"/><circle cx="83" cy="-83" r="5"/><circle cx="118" cy="0" r="5"/>
+      <circle cx="83" cy="83" r="5"/><circle cx="0" cy="118" r="5"/><circle cx="-83" cy="83" r="5"/>
+      <circle cx="-118" cy="0" r="5"/><circle cx="-83" cy="-83" r="5"/>
+    </g>
+  </g>
+
+  <g transform="translate(950 500)" opacity="0.75">
+    <g stroke="#d4a437" stroke-width="3" stroke-linecap="round">
+      <line x1="0" y1="-70" x2="0" y2="-42"/>
+      <line x1="50" y1="-50" x2="30" y2="-30"/>
+      <line x1="70" y1="0" x2="42" y2="0"/>
+      <line x1="50" y1="50" x2="30" y2="30"/>
+      <line x1="0" y1="70" x2="0" y2="42"/>
+      <line x1="-50" y1="50" x2="-30" y2="30"/>
+      <line x1="-70" y1="0" x2="-42" y2="0"/>
+      <line x1="-50" y1="-50" x2="-30" y2="-30"/>
+    </g>
+    <circle cx="0" cy="0" r="9" fill="#f3cf6b"/>
+  </g>
+
+  <g fill="#f3cf6b">
+    <circle cx="180" cy="160" r="3" opacity="0.8"/><circle cx="240" cy="420" r="2.5" opacity="0.6"/>
+    <circle cx="640" cy="130" r="3" opacity="0.7"/><circle cx="1050" cy="260" r="3" opacity="0.8"/>
+    <circle cx="1100" cy="640" r="2.5" opacity="0.6"/><circle cx="140" cy="600" r="2.5" opacity="0.5"/>
+    <circle cx="700" cy="470" r="2.5" opacity="0.55"/><circle cx="360" cy="560" r="3" opacity="0.6"/>
+    <circle cx="920" cy="640" r="3" opacity="0.65"/><circle cx="520" cy="250" r="2.5" opacity="0.7"/>
+  </g>
+
+  <path d="M0 810 L90 788 L170 802 L260 780 L350 800 L450 776 L560 798 L660 778 L760 800 L860 782 L960 800 L1060 780 L1200 796 L1200 900 L0 900 Z" fill="#08080a"/>
+  <path d="M0 836 L120 822 L230 834 L340 820 L470 834 L600 820 L730 836 L860 822 L1000 836 L1120 824 L1200 832 L1200 900 L0 900 Z" fill="#050506"/>
+
+  <text x="600" y="762" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="14" fill="#d4a437" opacity="0.9">KS CRACKERS</text>
+</svg>

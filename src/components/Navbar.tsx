@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ShoppingBag, Menu, X, Search, PhoneCall } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
 import CartDrawer from './CartDrawer';
@@ -28,10 +28,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when routing changes
-  useEffect(() => {
+  // Close mobile menu when routing changes (render-time adjustment)
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (lastPathname !== pathname) {
+    setLastPathname(pathname);
     setIsOpen(false);
-  }, [pathname]);
+  }
+
+  const router = useRouter();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -106,13 +110,13 @@ export default function Navbar() {
               </button>
 
               {/* Contact CTA */}
-              <a
+              <Link
                 href="/#contact"
                 className="flex items-center space-x-2 bg-transparent hover:bg-gold-500/10 text-white hover:text-gold-500 border border-white/20 hover:border-gold-500/30 px-4 py-2 rounded-lg text-xs font-bold tracking-wide transition-all duration-300"
               >
                 <PhoneCall className="w-3.5 h-3.5" />
                 <span>Contact Us</span>
-              </a>
+              </Link>
             </div>
 
             {/* Mobile Actions & Menu Trigger */}
@@ -156,7 +160,8 @@ export default function Navbar() {
               onSubmit={(e) => {
                 e.preventDefault();
                 if (searchQuery.trim()) {
-                  window.location.href = `/shop?search=${encodeURIComponent(searchQuery)}`;
+                  router.push(`/shop?search=${encodeURIComponent(searchQuery)}`);
+                  setIsOpen(false);
                 }
               }}
               className="relative"
@@ -176,13 +181,13 @@ export default function Navbar() {
               </button>
             </form>
             {/* Contact CTA */}
-            <a
+            <Link
               href="/#contact"
               className="flex items-center justify-center space-x-2 bg-charcoal-800 text-white border border-white/10 hover:border-gold-500/30 px-4 py-3 rounded-lg text-sm font-bold tracking-wide transition-all"
             >
               <PhoneCall className="w-4 h-4" />
               <span>Contact Us</span>
-            </a>
+            </Link>
           </div>
         )}
       </nav>
@@ -205,7 +210,7 @@ export default function Navbar() {
               onSubmit={(e) => {
                 e.preventDefault();
                 if (searchQuery.trim()) {
-                  window.location.href = `/shop?search=${encodeURIComponent(searchQuery)}`;
+                  router.push(`/shop?search=${encodeURIComponent(searchQuery)}`);
                   setSearchOpen(false);
                 }
               }}

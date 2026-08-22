@@ -1,5 +1,5 @@
 import React from 'react';
-import { getProducts } from '@/lib/dataAccess';
+import { getStorefrontProducts } from '@/lib/dataAccess';
 import ShopClient from './ShopClient';
 
 export const revalidate = 30; // Revalidate every 30 seconds
@@ -19,7 +19,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const initialSearch = params.search || '';
   const initialFilter = params.filter || ''; // e.g. "offers"
 
-  const products = await getProducts();
+  const products = await getStorefrontProducts();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
