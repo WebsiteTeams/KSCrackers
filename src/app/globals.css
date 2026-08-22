@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
+@theme {
+  --color-gold-50: #FFFDF0;
+  --color-gold-100: #FFF9D1;
+  --color-gold-200: #FFF2A2;
+  --color-gold-300: #FFE56E;
+  --color-gold-400: #E3C766; /* Soft Gold */
+  --color-gold-500: #C9A227; /* Premium Gold Accent */
+  --color-gold-600: #B28F27;
+  --color-gold-700: #8E6F1D;
+  --color-gold-800: #6B5113;
+  --color-gold-900: #48360D;
+  
+  --color-charcoal-50: #F7F5F0; /* Warm White */
+  --color-charcoal-100: #ECECED;
+  --color-charcoal-200: #D0D0D4;
+  --color-charcoal-300: #ABABAF;
+  --color-charcoal-400: #7E7F85;
+  --color-charcoal-500: #5F5F65;
+  --color-charcoal-600: #4B4B50;
+  --color-charcoal-700: #323235;
+  --color-charcoal-800: #151518; /* Charcoal */
+  --color-charcoal-900: #0B0B0D; /* Near Black */
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0B0B0D;
+  --foreground: #F7F5F0;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-jakarta), sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0B0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #151518;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C9A227;
+}
+
+/* Text Gradients */
+@utility text-gradient-gold {
+  background: linear-gradient(135deg, #FFFDF0 0%, #C9A227 50%, #8E6F1D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Clean UI Utilities */
+@utility clean-card {
+  background: #151518;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+@utility clean-navbar {
+  background: rgba(11, 11, 13, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@utility animate-float-subtle {
+  animation: float-subtle 4s ease-in-out infinite;
 }
