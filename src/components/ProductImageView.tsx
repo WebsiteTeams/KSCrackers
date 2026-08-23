@@ -15,6 +15,27 @@ interface ProductImageViewProps {
   compact?: boolean;
 }
 
+function getFileType(url: string): 'svg' | 'gif' | 'webp' | 'png' | 'jpg' | 'unknown' {
+  const lower = url.toLowerCase().split('?')[0];
+  if (lower.endsWith('.svg')) return 'svg';
+  if (lower.endsWith('.gif')) return 'gif';
+  if (lower.endsWith('.webp')) return 'webp';
+  if (lower.endsWith('.png')) return 'png';
+  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'jpg';
+  return 'unknown';
+}
+
+function NativeImage({ src, alt, fit, className }: { src: string; alt: string; fit: 'contain' | 'cover'; className?: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      className={`${fit === 'cover' ? 'object-cover' : 'object-contain'} w-full h-full ${className || ''}`}
+    />
+  );
+}
+
 export default function ProductImageView({
   product,
   index = 0,
@@ -38,15 +59,19 @@ export default function ProductImageView({
 
   if (loadFailed) {
     return (
-      <ImageComingSoon
-        title="Unable to Load"
-        subtitle="Product Image Unavailable"
-        compact={compact}
-      />
+      <ImageComingSoon title="Unable to Load" subtitle="Product Image Unavailable" compact={compact} />
     );
   }
 
   const isRemote = /^https?:\/\//i.test(image.url);
+  const fileType = getFileType(image.url);
+  const useNative = isRemote || fileType === 'svg' || fileType === 'gif';
+
+  if (useNative) {
+    return (
+      <NativeImage src={image.url} alt={image.alt} fit={fit} className={className} />
+    );
+  }
 
   return (
     <Image
@@ -54,7 +79,6 @@ export default function ProductImageView({
       alt={image.alt}
       fill
       sizes={sizes}
-      unoptimized={isRemote}
       onError={() => setFailedKey(currentKey)}
       className={`${className} ${fit === 'cover' ? 'object-cover' : 'object-contain'}`}
     />

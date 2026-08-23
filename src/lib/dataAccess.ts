@@ -122,7 +122,7 @@ export async function createProduct(productData: Omit<IProduct, '_id' | 'created
       const data = withNormalizedImages({ ...productData, slug });
       const created = await Product.create(data);
       console.log(`✅ Product "${productData.name}" saved to MongoDB (${created._id})`);
-      return created;
+      return { ...created.toObject(), _id: String(created._id) } as IProduct;
     }
     console.warn('⚠️ MongoDB not connected, saving to fallback JSON');
   } catch (error) {
@@ -155,9 +155,9 @@ export async function updateProduct(id: string, productData: Partial<IProduct>):
       const merged = withNormalizedImages({ ...existing, ...productData });
       const { _id: _ignored, ...patchWithoutId } = merged;
       void _ignored;
-      const updated = await Product.findByIdAndUpdate(id, patchWithoutId, { new: true });
+      const updated = await Product.findByIdAndUpdate(id, patchWithoutId, { new: true }).lean();
       console.log(`✅ Product ${id} updated in MongoDB`);
-      return updated;
+      return updated ? { ...(updated as unknown as IProduct), _id: String((updated as unknown as { _id: unknown })._id) } : null;
     }
     console.warn('⚠️ MongoDB not connected, updating fallback JSON');
   } catch (error) {
@@ -206,9 +206,9 @@ export async function deleteProduct(id: string): Promise<boolean> {
 export async function getOrders(): Promise<IOrder[]> {
   try {
     if (await isDbConnected()) {
-      const orders = await Order.find({}).sort({ createdAt: -1 });
+      const orders = await Order.find({}).sort({ createdAt: -1 }).lean();
       console.log(`✅ Fetched ${orders.length} orders from MongoDB`);
-      return orders;
+      return (orders as unknown as IOrder[]).map((doc) => ({ ...doc, _id: String(doc._id) }));
     }
     console.warn('⚠️ MongoDB not connected, reading orders from fallback JSON');
   } catch (error) {
@@ -227,7 +227,7 @@ export async function createOrder(orderData: Omit<IOrder, '_id' | 'orderNumber' 
     if (await isDbConnected()) {
       const created = await Order.create(data);
       console.log(`✅ Order ${orderNumber} saved to MongoDB (${created._id})`);
-      return created;
+      return { ...created.toObject(), _id: String(created._id) } as IOrder;
     }
     console.warn('⚠️ MongoDB not connected, saving order to fallback JSON');
   } catch (error) {
@@ -250,9 +250,9 @@ export async function createOrder(orderData: Omit<IOrder, '_id' | 'orderNumber' 
 export async function updateOrder(id: string, orderData: Partial<IOrder>): Promise<IOrder | null> {
   try {
     if (await isDbConnected()) {
-      const updated = await Order.findByIdAndUpdate(id, orderData, { new: true });
+      const updated = await Order.findByIdAndUpdate(id, orderData, { new: true }).lean();
       console.log(`✅ Order ${id} updated in MongoDB`);
-      return updated;
+      return updated ? { ...(updated as unknown as IOrder), _id: String((updated as unknown as { _id: unknown })._id) } : null;
     }
     console.warn('⚠️ MongoDB not connected, updating order in fallback JSON');
   } catch (error) {

@@ -34,6 +34,7 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-[85vh] flex items-center bg-white overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div>
