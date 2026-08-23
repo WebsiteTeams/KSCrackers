@@ -206,16 +206,43 @@ export function resolveDisplayImages(
 
   const fallback = getDefaultProductImages(product.slug, product.name, product.category);
 
-  if (
-    typeof existingFileFilter === 'function'
-  ) {
-    const usableFallback = fallback.filter(
+  let usableFallback: ProductImage[];
+  if (typeof existingFileFilter === 'function') {
+    usableFallback = fallback.filter(
       (img) => !isLocalImagePath(img.url) || existingFileFilter(img.url)
     );
-    return usableFallback;
+  } else {
+    usableFallback = fallback;
   }
 
-  return fallback;
+  if (usableFallback.length > 0) return usableFallback;
+
+  const categoryFallback = categoryImages[product.category];
+  if (categoryFallback) {
+    const categoryImage: ProductImage[] = [
+      {
+        url: categoryFallback,
+        alt: `${product.name} KS Crackers`,
+        isPrimary: true,
+      },
+    ];
+    if (typeof existingFileFilter === 'function') {
+      const usableCategory = categoryImage.filter(
+        (img) => !isLocalImagePath(img.url) || existingFileFilter(img.url)
+      );
+      if (usableCategory.length > 0) return usableCategory;
+    } else {
+      return categoryImage;
+    }
+  }
+
+  return [
+    {
+      url: PLACEHOLDER_PRODUCT_IMAGE,
+      alt: `${product.name} KS Crackers`,
+      isPrimary: true,
+    },
+  ];
 }
 
 export function getPrimaryProductImage(

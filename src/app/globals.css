@@ -1,91 +1,247 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold-50: #FFFDF0;
-  --color-gold-100: #FFF9D1;
-  --color-gold-200: #FFF2A2;
-  --color-gold-300: #FFE56E;
-  --color-gold-400: #E3C766; /* Soft Gold */
-  --color-gold-500: #C9A227; /* Premium Gold Accent */
-  --color-gold-600: #B28F27;
-  --color-gold-700: #8E6F1D;
-  --color-gold-800: #6B5113;
-  --color-gold-900: #48360D;
-  
-  --color-charcoal-50: #F7F5F0; /* Warm White */
-  --color-charcoal-100: #ECECED;
-  --color-charcoal-200: #D0D0D4;
-  --color-charcoal-300: #ABABAF;
-  --color-charcoal-400: #7E7F85;
-  --color-charcoal-500: #5F5F65;
-  --color-charcoal-600: #4B4B50;
-  --color-charcoal-700: #323235;
-  --color-charcoal-800: #151518; /* Charcoal */
-  --color-charcoal-900: #0B0B0D; /* Near Black */
+  /* Primary: Burgundy (warm, authoritative) */
+  --color-burgundy-50: #FDF2F2;
+  --color-burgundy-100: #F9DADA;
+  --color-burgundy-200: #F0B0B0;
+  --color-burgundy-300: #E08080;
+  --color-burgundy-400: #C45555;
+  --color-burgundy-500: #A33838;
+  --color-burgundy-600: #8B2E2E;
+  --color-burgundy-700: #6B2C2C;
+  --color-burgundy-800: #4D2222;
+  --color-burgundy-900: #331818;
+
+  /* Terracotta: Secondary accent (warm, festive) */
+  --color-terracotta-50: #FEF5F0;
+  --color-terracotta-100: #FCEADE;
+  --color-terracotta-200: #F7D0B5;
+  --color-terracotta-300: #F0B088;
+  --color-terracotta-400: #E8945E;
+  --color-terracotta-500: #D97757;
+  --color-terracotta-600: #C4603F;
+  --color-terracotta-700: #A54C32;
+  --color-terracotta-800: #7D3925;
+  --color-terracotta-900: #5A2A1B;
+
+  /* Copper: Muted gold accent */
+  --color-copper-50: #FBF7ED;
+  --color-copper-100: #F5EDD4;
+  --color-copper-200: #EADBA8;
+  --color-copper-300: #DCC47A;
+  --color-copper-400: #CDAE52;
+  --color-copper-500: #B8960B;
+  --color-copper-600: #9A7C09;
+  --color-copper-700: #7A6207;
+  --color-copper-800: #5C4905;
+  --color-copper-900: #3D3003;
+
+  /* Forest: Eco/Authentic badges */
+  --color-forest-50: #EDF7F3;
+  --color-forest-100: #D1EDE3;
+  --color-forest-200: #A3D9C5;
+  --color-forest-300: #6FBDA2;
+  --color-forest-400: #449F82;
+  --color-forest-500: #2D8268;
+  --color-forest-600: #236A54;
+  --color-forest-700: #1B4D3E;
+  --color-forest-800: #13362B;
+  --color-forest-900: #0C221B;
+
+  /* Warm Neutrals */
+  --color-cream-50: #FEFBF7;
+  --color-cream-100: #FDF8F0;
+  --color-cream-200: #FAF3E8;
+  --color-cream-300: #F5ECDB;
+  --color-cream-400: #EDE3CA;
+  --color-cream-500: #E0D4B8;
+
+  --color-stone-50: #F5F3F0;
+  --color-stone-100: #ECEAE5;
+  --color-stone-200: #D8D4CC;
+  --color-stone-300: #C2BCB1;
+  --color-stone-400: #A89F94;
+  --color-stone-500: #8F857A;
+  --color-stone-600: #746A60;
+  --color-stone-700: #5A524A;
+  --color-stone-800: #413B35;
+  --color-stone-900: #2A2520;
+
+  /* Semantic Colors */
+  --color-success: #52A552;
+  --color-alert: #C97C4E;
+  --color-error: #C45555;
+
+  /* Legacy aliases for gradual migration */
+  --color-gold-50: var(--color-copper-50);
+  --color-gold-100: var(--color-copper-100);
+  --color-gold-200: var(--color-copper-200);
+  --color-gold-300: var(--color-copper-300);
+  --color-gold-400: var(--color-copper-400);
+  --color-gold-500: var(--color-copper-500);
+  --color-gold-600: var(--color-copper-600);
+  --color-gold-700: var(--color-copper-700);
+  --color-gold-800: var(--color-copper-800);
+  --color-gold-900: var(--color-copper-900);
+
+  --color-charcoal-50: var(--color-cream-50);
+  --color-charcoal-100: var(--color-cream-200);
+  --color-charcoal-200: var(--color-stone-300);
+  --color-charcoal-300: var(--color-stone-600);
+  --color-charcoal-400: var(--color-stone-500);
+  --color-charcoal-500: var(--color-stone-700);
+  --color-charcoal-600: var(--color-stone-800);
+  --color-charcoal-700: var(--color-stone-900);
+  --color-charcoal-800: var(--color-stone-900);
+  --color-charcoal-900: var(--color-stone-900);
 }
 
 :root {
-  --background: #0B0B0D;
-  --foreground: #F7F5F0;
+  --background: #FEFBF7;
+  --foreground: #2A2520;
+  --font-heading: var(--font-playfair), Georgia, 'Times New Roman', serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-body);
   overflow-x: hidden;
   scroll-behavior: smooth;
+  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-jakarta), sans-serif;
+  font-family: var(--font-heading);
+  color: #2A2520;
+  line-height: 1.2;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0B0D;
+  background: #FEFBF7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #151518;
-  border-radius: 4px;
+  background: #D8D4CC;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9A227;
+  background: #A89F94;
 }
 
-/* Text Gradients */
-@utility text-gradient-gold {
-  background: linear-gradient(135deg, #FFFDF0 0%, #C9A227 50%, #8E6F1D 100%);
+/* Design System Utilities */
+@utility text-heritage {
+  background: linear-gradient(135deg, #6B2C2C 0%, #A33838 50%, #C45555 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Clean UI Utilities */
-@utility clean-card {
-  background: #151518;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+@utility card-warm {
+  background: #FFFFFF;
+  border: 1px solid #ECEAE5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-@utility clean-navbar {
-  background: rgba(11, 11, 13, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+@utility card-elevated {
+  background: #FFFFFF;
+  border: 1px solid #ECEAE5;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-@keyframes float-subtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+@utility input-base {
+  background: #FFFFFF;
+  border: 1px solid #D8D4CC;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #2A2520;
+  transition: border-color 0.2s ease;
 }
 
-@utility animate-float-subtle {
-  animation: float-subtle 4s ease-in-out infinite;
+@utility input-focus {
+  outline: none;
+  border-color: #6B2C2C;
+  box-shadow: 0 0 0 3px rgba(107, 44, 44, 0.1);
+}
+
+@utility btn-primary {
+  background: #6B2C2C;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+@utility btn-primary-hover {
+  background: #4D2222;
+  box-shadow: 0 4px 12px rgba(107, 44, 44, 0.25);
+}
+
+@utility btn-secondary {
+  background: #FEFBF7;
+  color: #6B2C2C;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  border: 1px solid #D8D4CC;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+@utility btn-tertiary {
+  background: transparent;
+  color: #6B2C2C;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+/* Section spacing */
+@utility section-gap {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-timing-function: ease-out;
+}
+
+a, button, input, select, textarea {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+
+/* Focus visible styles for accessibility */
+:focus-visible {
+  outline: 2px solid #6B2C2C;
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

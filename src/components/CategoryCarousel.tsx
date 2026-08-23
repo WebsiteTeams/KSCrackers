@@ -10,13 +10,10 @@ interface CategoryCarouselProps {
   className?: string;
 }
 
-const AUTOSCROLL_STEP = 288; // card width + gap
-const AUTOSCROLL_INTERVAL = 3000;
+const AUTOSCROLL_STEP = 288;
+const AUTOSCROLL_INTERVAL = 4000;
 
-export default function CategoryCarousel({
-  categoryCounts,
-  className,
-}: CategoryCarouselProps) {
+export default function CategoryCarousel({ categoryCounts, className }: CategoryCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef(false);
 
@@ -24,16 +21,12 @@ export default function CategoryCarousel({
     const id = window.setInterval(() => {
       const container = containerRef.current;
       if (!container || hoverRef.current) return;
-
       const maxScroll = container.scrollWidth - container.clientWidth;
       if (maxScroll <= 0) return;
-
       let next = container.scrollLeft + AUTOSCROLL_STEP;
       if (next >= maxScroll) next = 0;
-
       container.scrollTo({ left: next, behavior: 'smooth' });
     }, AUTOSCROLL_INTERVAL);
-
     return () => window.clearInterval(id);
   }, []);
 
@@ -42,48 +35,38 @@ export default function CategoryCarousel({
   };
 
   return (
-    <div className={className || 'relative group/carousel'} data-testid="category-carousel">
+    <div className={className || 'relative group/carousel'}>
       <div
         ref={containerRef}
-        onMouseEnter={() => {
-          hoverRef.current = true;
-        }}
-        onMouseLeave={() => {
-          hoverRef.current = false;
-        }}
+        onMouseEnter={() => { hoverRef.current = true; }}
+        onMouseLeave={() => { hoverRef.current = false; }}
         className="overflow-x-auto pb-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         role="region"
-        aria-label="Shop by category carousel"
+        aria-label="Shop by category"
       >
-        <div className="flex gap-6 w-max">
+        <div className="flex gap-5 w-max">
           {CATEGORIES.map((cat) => (
             <div key={cat.id} className="w-56 sm:w-64 lg:w-72 shrink-0">
-              <CategoryCard
-                slug={cat.id}
-                name={cat.name}
-                count={categoryCounts[cat.id] || 0}
-              />
+              <CategoryCard slug={cat.id} name={cat.name} count={categoryCounts[cat.id] || 0} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Navigation buttons */}
       <button
         onClick={() => scrollByAmount(-1)}
-        className="hidden lg:flex absolute top-1/2 -translate-y-1/2 -left-4 z-20 w-10 h-10 bg-charcoal-900/90 border border-gold-500/30 rounded-full items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:bg-gold-500/20 cursor-pointer shadow-lg"
+        className="hidden lg:flex absolute top-1/2 -translate-y-1/2 -left-3 z-20 w-9 h-9 bg-white border border-stone-200 rounded-full items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity shadow-md hover:shadow-lg cursor-pointer"
         aria-label="Previous categories"
       >
-        <ArrowLeft className="w-5 h-5 text-gold-400" />
+        <ArrowLeft className="w-4 h-4 text-stone-600" />
       </button>
-
       <button
         onClick={() => scrollByAmount(1)}
-        className="hidden lg:flex absolute top-1/2 -translate-y-1/2 -right-4 z-20 w-10 h-10 bg-charcoal-900/90 border border-gold-500/30 rounded-full items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:bg-gold-500/20 cursor-pointer shadow-lg"
+        className="hidden lg:flex absolute top-1/2 -translate-y-1/2 -right-3 z-20 w-9 h-9 bg-white border border-stone-200 rounded-full items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity shadow-md hover:shadow-lg cursor-pointer"
         aria-label="Next categories"
       >
-        <ArrowRight className="w-5 h-5 text-gold-400" />
+        <ArrowRight className="w-4 h-4 text-stone-600" />
       </button>
     </div>
   );

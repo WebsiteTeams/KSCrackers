@@ -14,10 +14,19 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    if (!body.name || !body.description || !body.sellingPrice) {
+      return NextResponse.json(
+        { error: 'Missing required fields: name, description, sellingPrice' },
+        { status: 400 }
+      );
+    }
+
     const newProduct = await createProduct(body);
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
     console.error('API Error in POST /api/products:', error);
-    return NextResponse.json({ error: 'Failed to create new product' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Failed to create new product';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

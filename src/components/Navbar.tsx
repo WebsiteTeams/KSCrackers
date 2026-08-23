@@ -18,17 +18,12 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when routing changes (render-time adjustment)
   const [lastPathname, setLastPathname] = useState(pathname);
   if (lastPathname !== pathname) {
     setLastPathname(pathname);
@@ -38,11 +33,9 @@ export default function Navbar() {
   const router = useRouter();
 
   const navLinks = [
-    { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
     { name: 'Categories', href: '/#categories' },
     { name: 'Offers', href: '/#offers' },
-    { name: 'Combos', href: '/#combos' },
     { name: 'About', href: '/#about' },
     { name: 'Contact', href: '/#contact' },
   ];
@@ -52,34 +45,34 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'clean-navbar py-4 shadow-xl'
-            : 'bg-transparent py-6'
+            ? 'bg-white/95 backdrop-blur-sm border-b border-stone-200 shadow-sm'
+            : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link href="/" className="flex flex-col items-start group cursor-pointer">
-                <span className="text-2xl font-extrabold tracking-widest text-gold-500 group-hover:text-white transition-colors duration-300">
-                  KS
-                </span>
-                <span className="text-sm font-semibold tracking-[0.2em] text-white -mt-1 group-hover:text-gold-500 transition-colors duration-300">
-                  CRACKERS
-                </span>
-              </Link>
-            </div>
+            <Link href="/" className="flex items-center gap-2 group">
+              <span className="text-xl font-bold tracking-wide text-burgundy-700">
+                KS
+              </span>
+              <span className="text-xs font-semibold tracking-[0.15em] uppercase text-stone-600">
+                Crackers
+              </span>
+            </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-sm font-medium tracking-wide transition-colors duration-200 hover:text-gold-500 ${
-                      isActive ? 'text-gold-500 border-b border-gold-500 pb-0.5' : 'text-charcoal-300'
+                    className={`text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'text-burgundy-700'
+                        : 'text-stone-600 hover:text-burgundy-700'
                     }`}
                   >
                     {link.name}
@@ -89,120 +82,114 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Actions */}
-            <div className="hidden md:flex items-center space-x-6">
-              {/* Search Toggle */}
+            <div className="hidden md:flex items-center gap-4">
               <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="text-charcoal-300 hover:text-gold-500 transition-colors cursor-pointer"
+                onClick={() => setSearchOpen(true)}
+                className="p-2 text-stone-500 hover:text-burgundy-700 transition-colors"
                 aria-label="Search products"
               >
                 <Search className="w-5 h-5" />
               </button>
 
-              {/* Cart */}
-              <button onClick={() => setCartDrawerOpen(true)} className="relative group cursor-pointer border-none bg-transparent outline-none">
-                <ShoppingBag className="w-5 h-5 text-charcoal-300 group-hover:text-gold-500 transition-colors" />
+              <button
+                onClick={() => setCartDrawerOpen(true)}
+                className="relative p-2 text-stone-500 hover:text-burgundy-700 transition-colors"
+                aria-label="Open cart"
+              >
+                <ShoppingBag className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-charcoal-900 text-gold-500 text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold border border-gold-500/30 shadow-md transform group-hover:scale-110 transition-transform">
+                  <span className="absolute -top-0.5 -right-0.5 bg-burgundy-700 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                     {cartCount}
                   </span>
                 )}
               </button>
 
-              {/* Contact CTA */}
               <Link
                 href="/#contact"
-                className="flex items-center space-x-2 bg-transparent hover:bg-gold-500/10 text-white hover:text-gold-500 border border-white/20 hover:border-gold-500/30 px-4 py-2 rounded-lg text-xs font-bold tracking-wide transition-all duration-300"
+                className="hidden lg:flex items-center gap-2 text-sm font-medium text-stone-600 hover:text-burgundy-700 transition-colors"
               >
-                <PhoneCall className="w-3.5 h-3.5" />
-                <span>Contact Us</span>
+                <PhoneCall className="w-4 h-4" />
+                <span>Contact</span>
               </Link>
             </div>
 
-            {/* Mobile Actions & Menu Trigger */}
-            <div className="flex md:hidden items-center space-x-4">
-              {/* Cart */}
-              <button onClick={() => setCartDrawerOpen(true)} className="relative group border-none bg-transparent outline-none">
-                <ShoppingBag className="w-5 h-5 text-charcoal-300 group-hover:text-gold-500 transition-colors" />
+            {/* Mobile Actions */}
+            <div className="flex md:hidden items-center gap-3">
+              <button
+                onClick={() => setCartDrawerOpen(true)}
+                className="relative p-2 text-stone-500"
+                aria-label="Open cart"
+              >
+                <ShoppingBag className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-charcoal-900 text-gold-500 text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold border border-gold-500/30 shadow-md">
+                  <span className="absolute -top-0.5 -right-0.5 bg-burgundy-700 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                     {cartCount}
                   </span>
                 )}
               </button>
 
-              {/* Menu Trigger */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-charcoal-300 hover:text-gold-500 transition-colors"
-                aria-label="Toggle mobile menu"
+                className="p-2 text-stone-500"
+                aria-label="Toggle menu"
               >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden clean-navbar absolute top-full left-0 right-0 py-4 px-6 border-b border-white/5 shadow-2xl flex flex-col space-y-4 animate-in fade-in slide-in-from-top-5 duration-200">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-base font-medium tracking-wide text-charcoal-200 hover:text-gold-500 py-2 border-b border-white/5"
-              >
-                {link.name}
-              </Link>
-            ))}
-            {/* Search Input in Mobile menu */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (searchQuery.trim()) {
-                  router.push(`/shop?search=${encodeURIComponent(searchQuery)}`);
-                  setIsOpen(false);
-                }
-              }}
-              className="relative"
-            >
-              <input
-                type="text"
-                placeholder="Search crackers..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-charcoal-800 border border-white/10 rounded-lg py-2 pl-3 pr-10 text-sm focus:outline-none focus:border-gold-500 text-white"
-              />
-              <button
-                type="submit"
-                className="absolute right-2.5 top-2.5 text-charcoal-400 hover:text-gold-500"
-              >
-                <Search className="w-4 h-4" />
-              </button>
-            </form>
-            {/* Contact CTA */}
-            <Link
-              href="/#contact"
-              className="flex items-center justify-center space-x-2 bg-charcoal-800 text-white border border-white/10 hover:border-gold-500/30 px-4 py-3 rounded-lg text-sm font-bold tracking-wide transition-all"
-            >
-              <PhoneCall className="w-4 h-4" />
-              <span>Contact Us</span>
-            </Link>
+          <div className="md:hidden bg-white border-b border-stone-200 shadow-sm">
+            <div className="px-4 py-4 space-y-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="block py-2.5 text-sm font-medium text-stone-700 hover:text-burgundy-700 transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <div className="pt-3 border-t border-stone-100">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (searchQuery.trim()) {
+                      router.push(`/shop?search=${encodeURIComponent(searchQuery)}`);
+                      setIsOpen(false);
+                    }
+                  }}
+                  className="relative"
+                >
+                  <input
+                    type="text"
+                    placeholder="Search crackers..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-stone-50 border border-stone-200 rounded-lg py-2.5 pl-3 pr-10 text-sm text-stone-900 focus:outline-none focus:border-burgundy-500"
+                  />
+                  <button type="submit" className="absolute right-3 top-2.5 text-stone-400 hover:text-burgundy-600">
+                    <Search className="w-4 h-4" />
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         )}
       </nav>
 
       {/* Desktop Search Overlay */}
       {searchOpen && (
-        <div className="fixed inset-0 bg-[#0B0B0C]/90 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+        <div className="fixed inset-0 bg-stone-900/60 z-50 flex items-start justify-center pt-[15vh] px-4">
           <div className="absolute inset-0" onClick={() => setSearchOpen(false)} />
-          <div className="relative glass-card border border-gold-500/20 max-w-xl w-full p-6 rounded-xl shadow-2xl flex flex-col space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold tracking-wide text-gold-500">Search Catalog</h3>
-              <button
-                onClick={() => setSearchOpen(false)}
-                className="text-charcoal-400 hover:text-white transition-colors"
-              >
+          <div className="relative bg-white rounded-xl shadow-2xl max-w-xl w-full p-6 border border-stone-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-stone-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                Search
+              </h3>
+              <button onClick={() => setSearchOpen(false)} className="text-stone-400 hover:text-stone-700">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -214,19 +201,18 @@ export default function Navbar() {
                   setSearchOpen(false);
                 }
               }}
-              className="relative"
             >
               <input
                 type="text"
-                placeholder="What are you looking for today? (e.g. Sparklers, Combos)"
+                placeholder="What are you looking for?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoFocus
-                className="w-full bg-charcoal-900 border border-gold-500/30 focus:border-gold-500 focus:glow-gold rounded-lg py-3.5 pl-4 pr-12 text-sm focus:outline-none text-white placeholder-charcoal-400"
+                className="w-full bg-stone-50 border border-stone-200 rounded-lg py-3 px-4 pr-12 text-sm text-stone-900 focus:outline-none focus:border-burgundy-500 focus:ring-2 focus:ring-burgundy-500/10"
               />
               <button
                 type="submit"
-                className="absolute right-3.5 top-3.5 bg-gradient-to-r from-gold-500 to-amber-500 text-charcoal-900 p-1.5 rounded-md hover:opacity-90 transition-opacity"
+                className="absolute right-3 top-[4.5rem] bg-burgundy-700 text-white p-2 rounded-lg hover:bg-burgundy-800 transition-colors"
               >
                 <Search className="w-4 h-4" />
               </button>

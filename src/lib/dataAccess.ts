@@ -62,14 +62,17 @@ export async function getProducts(): Promise<IProduct[]> {
   try {
     if (await isDbConnected()) {
       const docs = await Product.find({}).sort({ createdAt: -1 }).lean();
+      console.log(`✅ Fetched ${docs.length} products from MongoDB`);
       return (docs as unknown as IProduct[])
         .map((doc) => ({ ...doc, _id: String(doc._id) }))
         .map(withNormalizedImages);
     }
+    console.warn('⚠️ MongoDB not connected, reading products from fallback JSON');
   } catch (error) {
-    console.error('MongoDB error in getProducts, falling back:', error);
+    console.error('❌ MongoDB error in getProducts:', error);
   }
   const db = readFallbackDb();
+  console.log(`📦 Serving ${db.products.filter(p => p.isActive !== false).length} products from fallback JSON`);
   return db.products.filter(p => p.isActive !== false).map(withNormalizedImages);
 }
 
@@ -90,7 +93,7 @@ export async function getProductBySlug(slug: string): Promise<IProduct | null> {
       return withNormalizedImages({ ...(doc as unknown as IProduct), _id: String((doc as unknown as { _id: unknown })._id) });
     }
   } catch (error) {
-    console.error(`MongoDB error in getProductBySlug for ${slug}, falling back:`, error);
+    console.error(`❌ MongoDB error in getProductBySlug for ${slug}:`, error);
   }
   const db = readFallbackDb();
   const found = db.products.find((p) => p.slug === slug && p.isActive !== false);
@@ -108,17 +111,26 @@ export async function getStorefrontProductBySlug(slug: string): Promise<IProduct
 }
 
 export async function createProduct(productData: Omit<IProduct, '_id' | 'createdAt' | 'updatedAt'>): Promise<IProduct> {
-  const slug = productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  const data = withNormalizedImages({ ...productData, slug });
+  let slug = productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   try {
     if (await isDbConnected()) {
-      return await Product.create(data);
+      const existing = await Product.findOne({ slug }).lean();
+      if (existing) {
+        slug = `${slug}-${Date.now()}`;
+      }
+      const data = withNormalizedImages({ ...productData, slug });
+      const created = await Product.create(data);
+      console.log(`✅ Product "${productData.name}" saved to MongoDB (${created._id})`);
+      return created;
     }
+    console.warn('⚠️ MongoDB not connected, saving to fallback JSON');
   } catch (error) {
-    console.error('MongoDB error in createProduct, falling back:', error);
+    console.error('❌ MongoDB error in createProduct:', error);
+    throw error;
   }
 
+  const data = withNormalizedImages({ ...productData, slug });
   const db = readFallbackDb();
   const newProduct: IProduct = {
     ...data,
@@ -143,10 +155,14 @@ export async function updateProduct(id: string, productData: Partial<IProduct>):
       const merged = withNormalizedImages({ ...existing, ...productData });
       const { _id: _ignored, ...patchWithoutId } = merged;
       void _ignored;
-      return await Product.findByIdAndUpdate(id, patchWithoutId, { new: true });
+      const updated = await Product.findByIdAndUpdate(id, patchWithoutId, { new: true });
+      console.log(`✅ Product ${id} updated in MongoDB`);
+      return updated;
     }
+    console.warn('⚠️ MongoDB not connected, updating fallback JSON');
   } catch (error) {
-    console.error(`MongoDB error in updateProduct for ${id}, falling back:`, error);
+    console.error(`❌ MongoDB error in updateProduct for ${id}:`, error);
+    throw error;
   }
 
   const db = readFallbackDb();
@@ -168,10 +184,16 @@ export async function deleteProduct(id: string): Promise<boolean> {
   try {
     if (await isDbConnected()) {
       const result = await Product.findByIdAndDelete(id);
-      return result !== null;
+      const success = result !== null;
+      if (success) {
+        console.log(`✅ Product ${id} deleted from MongoDB`);
+      }
+      return success;
     }
+    console.warn('⚠️ MongoDB not connected, deleting from fallback JSON');
   } catch (error) {
-    console.error(`MongoDB error in deleteProduct for ${id}, falling back:`, error);
+    console.error(`❌ MongoDB error in deleteProduct for ${id}:`, error);
+    throw error;
   }
 
   const db = readFallbackDb();
@@ -184,10 +206,13 @@ export async function deleteProduct(id: string): Promise<boolean> {
 export async function getOrders(): Promise<IOrder[]> {
   try {
     if (await isDbConnected()) {
-      return await Order.find({}).sort({ createdAt: -1 });
+      const orders = await Order.find({}).sort({ createdAt: -1 });
+      console.log(`✅ Fetched ${orders.length} orders from MongoDB`);
+      return orders;
     }
+    console.warn('⚠️ MongoDB not connected, reading orders from fallback JSON');
   } catch (error) {
-    console.error('MongoDB error in getOrders, falling back:', error);
+    console.error('❌ MongoDB error in getOrders:', error);
   }
   const db = readFallbackDb();
   return db.orders;
@@ -200,10 +225,14 @@ export async function createOrder(orderData: Omit<IOrder, '_id' | 'orderNumber' 
 
   try {
     if (await isDbConnected()) {
-      return await Order.create(data);
+      const created = await Order.create(data);
+      console.log(`✅ Order ${orderNumber} saved to MongoDB (${created._id})`);
+      return created;
     }
+    console.warn('⚠️ MongoDB not connected, saving order to fallback JSON');
   } catch (error) {
-    console.error('MongoDB error in createOrder, falling back:', error);
+    console.error('❌ MongoDB error in createOrder:', error);
+    throw error;
   }
 
   const db = readFallbackDb();
@@ -221,10 +250,14 @@ export async function createOrder(orderData: Omit<IOrder, '_id' | 'orderNumber' 
 export async function updateOrder(id: string, orderData: Partial<IOrder>): Promise<IOrder | null> {
   try {
     if (await isDbConnected()) {
-      return await Order.findByIdAndUpdate(id, orderData, { new: true });
+      const updated = await Order.findByIdAndUpdate(id, orderData, { new: true });
+      console.log(`✅ Order ${id} updated in MongoDB`);
+      return updated;
     }
+    console.warn('⚠️ MongoDB not connected, updating order in fallback JSON');
   } catch (error) {
-    console.error(`MongoDB error in updateOrder for ${id}, falling back:`, error);
+    console.error(`❌ MongoDB error in updateOrder for ${id}:`, error);
+    throw error;
   }
 
   const db = readFallbackDb();

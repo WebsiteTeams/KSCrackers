@@ -22,13 +22,11 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const products = await getStorefrontProducts();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-      <ShopClient
-        products={products}
-        initialCategory={initialCategory}
-        initialSearch={initialSearch}
-        initialFilter={initialFilter}
-      />
-    </div>
+    <ShopClient
+      products={products}
+      initialCategory={initialCategory}
+      initialSearch={initialSearch}
+      initialFilter={initialFilter}
+    />
   );
 }

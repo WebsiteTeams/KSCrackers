@@ -1,7 +1,6 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import Fireworks from '@/components/Fireworks';
 
 export default function StoreLayout({
   children,
@@ -10,9 +9,8 @@ export default function StoreLayout({
 }) {
   return (
     <>
-      <Fireworks />
       <Navbar />
-      <main className="flex-grow pt-20 relative z-10">
+      <main className="flex-grow pt-20">
         {children}
       </main>
       <Footer />
