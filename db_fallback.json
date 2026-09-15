@@ -7,7 +7,7 @@
       "category": "sparklers",
       "images": [
         {
-          "url": "/images/products/sparklers/1000-wala-crackers.svg",
+          "url": "/images/products/sparklers/1000-wala-crackers.jpg",
           "alt": "1000 Wala Crackers sparkler crackers",
           "isPrimary": true
         }
@@ -30,7 +30,7 @@
       "category": "sparklers",
       "images": [
         {
-          "url": "/images/products/sparklers/golden-sparklers-30cm.svg",
+          "url": "/images/products/sparklers/golden-sparklers-30cm.jpg",
           "alt": "Golden Sparklers (30cm) sparkler crackers",
           "isPrimary": true
         }
@@ -53,7 +53,7 @@
       "category": "flower-pots",
       "images": [
         {
-          "url": "/images/products/flower-pots/flower-pot-deluxe.svg",
+          "url": "/images/products/flower-pots/flower-pot-deluxe.jpg",
           "alt": "Flower Pot Deluxe flower pot cracker",
           "isPrimary": true
         }
@@ -76,7 +76,7 @@
       "category": "rockets",
       "images": [
         {
-          "url": "/images/products/rockets/sky-shot-rocket-multi-color.svg",
+          "url": "/images/products/rockets/sky-shot-rocket-multi-color.jpg",
           "alt": "Sky Shot Rocket (Multi-Color) sky rocket cracker",
           "isPrimary": true
         }
@@ -99,7 +99,7 @@
       "category": "ground-chakkars",
       "images": [
         {
-          "url": "/images/products/ground-chakkars/spinning-wheel-ground-chakkar.svg",
+          "url": "/images/products/ground-chakkars/spinning-wheel-ground-chakkar.jpg",
           "alt": "Spinning Wheel Ground Chakkar ground chakkar cracker",
           "isPrimary": true
         }
@@ -122,7 +122,7 @@
       "category": "fountains",
       "images": [
         {
-          "url": "/images/products/fountains/vibrant-fountain-show.svg",
+          "url": "/images/products/fountains/vibrant-fountain-show.jpg",
           "alt": "Vibrant Fountain Show fountain firework",
           "isPrimary": true
         }
@@ -145,7 +145,7 @@
       "category": "gift-boxes",
       "images": [
         {
-          "url": "/images/products/gift-boxes/shubh-deepawali-gift-box.svg",
+          "url": "/images/products/gift-boxes/shubh-deepawali-gift-box.jpg",
           "alt": "Shubh Deepawali Gift Box (31 Items) premium cracker gift box",
           "isPrimary": true
         }
@@ -168,7 +168,7 @@
       "category": "kids-special",
       "images": [
         {
-          "url": "/images/products/kids-special/magic-whip-crackling-sparks.svg",
+          "url": "/images/products/kids-special/magic-whip-crackling-sparks.jpg",
           "alt": "Magic Whip & Crackling Sparks kids special crackers",
           "isPrimary": true
         }
@@ -191,7 +191,7 @@
       "category": "combos",
       "images": [
         {
-          "url": "/images/products/combos/family-combo-pack.svg",
+          "url": "/images/products/combos/family-combo-pack.jpg",
           "alt": "Family Combo Pack celebration combo pack",
           "isPrimary": true
         }
@@ -214,7 +214,7 @@
       "category": "kids-special",
       "images": [
         {
-          "url": "/images/products/kids-special/kids-special-toy-crackers-pack.svg",
+          "url": "/images/products/kids-special/kids-special-toy-crackers-pack.jpg",
           "alt": "Kids Special Toy Crackers Pack kids special crackers",
           "isPrimary": true
         }
@@ -237,7 +237,7 @@
       "category": "combos",
       "images": [
         {
-          "url": "/images/products/combos/premium-festive-combo.svg",
+          "url": "/images/products/combos/premium-festive-combo.jpg",
           "alt": "Premium Festive Combo celebration combo pack",
           "isPrimary": true
         }
@@ -260,7 +260,7 @@
       "category": "combos",
       "images": [
         {
-          "url": "/images/products/combos/grand-celebration-combo.svg",
+          "url": "/images/products/combos/grand-celebration-combo.jpg",
           "alt": "Grand Celebration Combo celebration combo pack",
           "isPrimary": true
         }
@@ -295,7 +295,7 @@
           "name": "1000 Wala Crackers",
           "price": 750,
           "quantity": 5,
-          "image": "/images/products/sparklers/1000-wala-crackers.svg"
+          "image": "/images/products/sparklers/1000-wala-crackers.webp"
         }
       ],
       "subtotal": 6000,
@@ -325,7 +325,7 @@
           "name": "Golden Sparklers (30cm)",
           "price": 99,
           "quantity": 1,
-          "image": "/images/products/sparklers/golden-sparklers-30cm.svg"
+          "image": "/images/products/sparklers/golden-sparklers-30cm.webp"
         }
       ],
       "subtotal": 200,

@@ -15,8 +15,8 @@ export interface ResolvedProductImage {
   isPrimary: boolean;
 }
 
-export const PLACEHOLDER_PRODUCT_IMAGE = '/images/placeholders/product-image-soon.svg';
-export const PLACEHOLDER_CATEGORY_IMAGE = '/images/placeholders/category-image-soon.svg';
+export const PLACEHOLDER_PRODUCT_IMAGE = '/images/placeholders/product-image-soon.webp';
+export const PLACEHOLDER_CATEGORY_IMAGE = '/images/placeholders/category-image-soon.webp';
 
 export const CATEGORIES: Category[] = [
   { id: 'sparklers', name: 'Sparklers' },
@@ -33,16 +33,18 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   CATEGORIES.map((c) => [c.id, c.name])
 );
 
-export const categoryImages: Record<string, string> = {
-  sparklers: '/images/categories/sparklers.svg',
-  'flower-pots': '/images/categories/flower-pots.svg',
-  rockets: '/images/categories/rockets.svg',
-  'ground-chakkars': '/images/categories/ground-chakkars.svg',
-  fountains: '/images/categories/fountains.svg',
-  'gift-boxes': '/images/categories/gift-boxes.svg',
-  'kids-special': '/images/categories/kids-special.svg',
-  combos: '/images/categories/combos.svg',
+export const DEFAULT_CATEGORY_IMAGES: Record<string, string> = {
+  sparklers: '/images/categories/sparklers.jpg',
+  'flower-pots': '/images/categories/flower-pots.jpg',
+  rockets: '/images/categories/rockets.jpg',
+  'ground-chakkars': '/images/categories/ground-chakkars.jpg',
+  fountains: '/images/categories/fountains.jpg',
+  'gift-boxes': '/images/categories/gift-boxes.jpg',
+  'kids-special': '/images/categories/kids-special.jpg',
+  combos: '/images/categories/combos.jpg',
 };
+
+export const categoryImages: Record<string, string> = { ...DEFAULT_CATEGORY_IMAGES };
 
 export interface ProductImageConfig {
   primary: string;
@@ -51,47 +53,47 @@ export interface ProductImageConfig {
 
 export const productImages: Record<string, ProductImageConfig> = {
   '1000-wala-crackers': {
-    primary: '/images/products/sparklers/1000-wala-crackers.svg',
+    primary: '/images/products/sparklers/1000-wala-crackers.jpg',
   },
   'golden-sparklers-30cm': {
-    primary: '/images/products/sparklers/golden-sparklers-30cm.svg',
+    primary: '/images/products/sparklers/golden-sparklers-30cm.jpg',
   },
   'flower-pot-deluxe': {
-    primary: '/images/products/flower-pots/flower-pot-deluxe.svg',
+    primary: '/images/products/flower-pots/flower-pot-deluxe.jpg',
   },
   'sky-shot-rocket-multi-color': {
-    primary: '/images/products/rockets/sky-shot-rocket-multi-color.svg',
+    primary: '/images/products/rockets/sky-shot-rocket-multi-color.jpg',
   },
   'spinning-wheel-ground-chakkar': {
-    primary: '/images/products/ground-chakkars/spinning-wheel-ground-chakkar.svg',
+    primary: '/images/products/ground-chakkars/spinning-wheel-ground-chakkar.jpg',
   },
   'vibrant-fountain-show': {
-    primary: '/images/products/fountains/vibrant-fountain-show.svg',
+    primary: '/images/products/fountains/vibrant-fountain-show.jpg',
   },
   'shubh-deepawali-gift-box': {
-    primary: '/images/products/gift-boxes/shubh-deepawali-gift-box.svg',
+    primary: '/images/products/gift-boxes/shubh-deepawali-gift-box.jpg',
   },
   'magic-whip-crackling-sparks': {
-    primary: '/images/products/kids-special/magic-whip-crackling-sparks.svg',
+    primary: '/images/products/kids-special/magic-whip-crackling-sparks.jpg',
   },
   'family-combo-pack': {
-    primary: '/images/products/combos/family-combo-pack.svg',
+    primary: '/images/products/combos/family-combo-pack.jpg',
   },
   'kids-special-toy-crackers-pack': {
-    primary: '/images/products/kids-special/kids-special-toy-crackers-pack.svg',
+    primary: '/images/products/kids-special/kids-special-toy-crackers-pack.jpg',
   },
   'premium-festive-combo': {
-    primary: '/images/products/combos/premium-festive-combo.svg',
+    primary: '/images/products/combos/premium-festive-combo.jpg',
   },
   'grand-celebration-combo': {
-    primary: '/images/products/combos/grand-celebration-combo.svg',
+    primary: '/images/products/combos/grand-celebration-combo.jpg',
   },
 };
 
 export const bannerImages = {
-  hero: '/images/banners/hero.svg',
-  festivalOffer: '/images/banners/festival-offer.svg',
-  about: '/images/banners/about-sivakasi.svg',
+  hero: '/images/banners/hero.webp',
+  festivalOffer: '/images/banners/festival-offer.webp',
+  about: '/images/banners/about-sivakasi.webp',
 };
 
 function buildDefaultAlt(name: string, category: string): string {
@@ -193,7 +195,8 @@ export function normalizeProductImages(
 
 export function resolveDisplayImages(
   product: { slug: string; name: string; category: string; images?: unknown },
-  existingFileFilter?: (url: string) => boolean
+  existingFileFilter?: (url: string) => boolean,
+  categoryImagesOverride?: Record<string, string>
 ): ProductImage[] {
   const stored = normalizeProductImages(product.images, product.name, product.category);
 
@@ -217,7 +220,8 @@ export function resolveDisplayImages(
 
   if (usableFallback.length > 0) return usableFallback;
 
-  const categoryFallback = categoryImages[product.category];
+  const catImages = categoryImagesOverride || categoryImages;
+  const categoryFallback = catImages[product.category];
   if (categoryFallback) {
     const categoryImage: ProductImage[] = [
       {

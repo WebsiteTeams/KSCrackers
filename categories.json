@@ -1,0 +1,10 @@
+[
+  { "id": "sparklers", "name": "Sparklers", "image": "/images/categories/sparklers.jpg" },
+  { "id": "flower-pots", "name": "Flower Pots", "image": "/images/categories/flower-pots.jpg" },
+  { "id": "rockets", "name": "Rockets", "image": "/images/categories/rockets.jpg" },
+  { "id": "ground-chakkars", "name": "Ground Chakkars", "image": "/images/categories/ground-chakkars.jpg" },
+  { "id": "fountains", "name": "Fountains", "image": "/images/categories/fountains.jpg" },
+  { "id": "gift-boxes", "name": "Gift Boxes", "image": "/images/categories/gift-boxes.jpg" },
+  { "id": "kids-special", "name": "Kids Special", "image": "/images/categories/kids-special.jpg" },
+  { "id": "combos", "name": "Combo Packs", "image": "/images/categories/combos.jpg" }
+]

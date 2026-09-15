@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getStorefrontProducts } from '@/lib/dataAccess';
-import { CATEGORIES, bannerImages } from '@/lib/images';
+import { bannerImages } from '@/lib/images';
 import ProductCard from '@/components/ProductCard';
 import CategoryCarousel from '@/components/CategoryCarousel';
 import {
@@ -15,6 +15,7 @@ import {
   Leaf
 } from 'lucide-react';
 import HomeClientComponents from './HomeClientComponents';
+import HeroBackground from '@/components/HeroBackground';
 
 export const revalidate = 60;
 
@@ -32,8 +33,9 @@ export default async function HomePage() {
   return (
     <div className="bg-cream-50">
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center bg-white overflow-hidden">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+        <HeroBackground />
+        <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -70,15 +72,7 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-stone-100">
-              <Image
-                src={bannerImages.hero}
-                alt="KS Crackers celebration"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
+          
           </div>
         </div>
       </section>

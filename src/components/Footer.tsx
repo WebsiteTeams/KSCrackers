@@ -85,6 +85,7 @@ export default function Footer() {
                 { name: 'Terms & Conditions', href: '#' },
                 { name: 'Safety Guidelines', href: '/#faq' },
                 { name: 'Delivery Information', href: '/#faq' },
+                { name: 'Photo Credits', href: '/photo-credits' },
                 { name: 'Admin Portal', href: '/admin/login' },
               ].map((link) => (
                 <li key={link.name}>

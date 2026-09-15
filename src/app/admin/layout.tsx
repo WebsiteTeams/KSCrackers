@@ -18,6 +18,7 @@ import {
   Bell,
   Search,
   Warehouse,
+  Tags,
 } from 'lucide-react';
 
 const NAV_SECTIONS = [
@@ -32,6 +33,7 @@ const NAV_SECTIONS = [
     items: [
       { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
       { name: 'Products', href: '/admin/products', icon: Package },
+      { name: 'Categories', href: '/admin/categories', icon: Tags },
       { name: 'Inventory', href: '/admin/inventory', icon: Warehouse },
     ],
   },

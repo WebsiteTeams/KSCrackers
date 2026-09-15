@@ -6,6 +6,7 @@ import Order from '@/models/Order';
 import { DEFAULT_PRODUCTS, IProduct, IOrder } from './mockData';
 import { normalizeProductImages, resolveDisplayImages } from './images';
 import { createLocalFileFilter } from './imageManifest';
+import { getCategoryImages } from './categoryConfig';
 
 const FALLBACK_FILE_PATH = path.join(process.cwd(), 'db_fallback.json');
 
@@ -79,9 +80,11 @@ export async function getProducts(): Promise<IProduct[]> {
 export async function getStorefrontProducts(): Promise<IProduct[]> {
   const products = await getProducts();
   const fileFilter = createLocalFileFilter();
+  const runtimeCategoryImages = getCategoryImages();
   return products.map((product) => ({
     ...product,
-    images: resolveDisplayImages(product, fileFilter),
+    _categoryImage: runtimeCategoryImages[product.category],
+    images: resolveDisplayImages(product, fileFilter, runtimeCategoryImages),
   }));
 }
 
@@ -104,9 +107,10 @@ export async function getStorefrontProductBySlug(slug: string): Promise<IProduct
   const product = await getProductBySlug(slug);
   if (!product) return null;
   const fileFilter = createLocalFileFilter();
+  const runtimeCategoryImages = getCategoryImages();
   return {
     ...product,
-    images: resolveDisplayImages(product, fileFilter),
+    images: resolveDisplayImages(product, fileFilter, runtimeCategoryImages),
   };
 }
 
