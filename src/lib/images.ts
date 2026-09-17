@@ -92,8 +92,8 @@ export const productImages: Record<string, ProductImageConfig> = {
 
 export const bannerImages = {
   hero: '/images/banners/hero.webp',
-  festivalOffer: '/images/banners/festival-offer.webp',
-  about: '/images/banners/about-sivakasi.webp',
+  festivalOffer: '/images/categories/ground-chakkars.jpg',
+  about: '/images/categories/flower-pots.jpg',
 };
 
 function buildDefaultAlt(name: string, category: string): string {

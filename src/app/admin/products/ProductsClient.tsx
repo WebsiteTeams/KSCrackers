@@ -225,38 +225,41 @@ export default function ProductsClient({ initialProducts }: ProductsClientProps)
       {viewMode === 'table' && (
         <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="bg-stone-50 border-b border-stone-100 text-stone-500 text-[10px] uppercase tracking-wider font-medium">
-                  <th className="text-left px-6 py-3">Product</th>
-                  <th className="text-left px-6 py-3">Category</th>
-                  <th className="text-right px-6 py-3">MRP</th>
-                  <th className="text-right px-6 py-3">Price</th>
-                  <th className="text-right px-6 py-3">Stock</th>
-                  <th className="text-center px-6 py-3">Tags</th>
-                  <th className="text-center px-6 py-3">Actions</th>
+                <tr className="bg-stone-50/80 border-b-2 border-stone-200 text-stone-500 text-[10px] uppercase tracking-wider font-semibold">
+                  <th className="text-left px-6 py-3.5">Product</th>
+                  <th className="text-left px-6 py-3.5">Category</th>
+                  <th className="text-right px-6 py-3.5">MRP</th>
+                  <th className="text-right px-6 py-3.5">Price</th>
+                  <th className="text-right px-6 py-3.5">Stock</th>
+                  <th className="text-center px-6 py-3.5">Tags</th>
+                  <th className="text-center px-6 py-3.5">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
-          {paginated.map((p) => (
-                  <tr key={p._id} className="hover:bg-stone-50 transition-colors">
-                    <td className="px-6 py-3">
+                {paginated.map((p) => (
+                  <tr key={p._id} className="group hover:bg-stone-50/80 transition-colors">
+                    <td className="px-6 py-3 border-l-2 border-transparent group-hover:border-burgundy-400 transition-colors">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-stone-50 rounded-lg overflow-hidden shrink-0 border border-stone-100"><ProductImageView product={p} sizes="40px" fit="cover" compact /></div>
+                        <div className="relative w-10 h-10 bg-stone-50 rounded-lg overflow-hidden shrink-0 border border-stone-100"><ProductImageView product={p} sizes="40px" fit="cover" compact /></div>
                         <span className="font-semibold text-stone-900">{p.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-3 text-xs text-stone-600 capitalize">{p.category.replace('-', ' ')}</td>
-                    <td className="px-6 py-3 text-right text-stone-600">₹{p.mrp}</td>
-                    <td className="px-6 py-3 text-right font-semibold text-stone-900">₹{p.sellingPrice}</td>
-                    <td className="px-6 py-3 text-right">
-                      <span className={`font-semibold text-xs ${p.stock <= 5 ? 'text-amber-600' : 'text-stone-700'}`}>{p.stock}</span>
+                    <td className="px-6 py-3 text-right text-stone-500 whitespace-nowrap">₹{p.mrp}</td>
+                    <td className="px-6 py-3 text-right font-semibold text-stone-900 whitespace-nowrap">₹{p.sellingPrice}</td>
+                    <td className="px-6 py-3 text-right whitespace-nowrap">
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${p.stock === 0 ? 'bg-red-50 text-red-600' : p.stock <= 5 ? 'bg-amber-50 text-amber-700' : 'bg-green-50 text-green-700'}`}>
+                        {p.stock} units
+                      </span>
                     </td>
                     <td className="px-6 py-3 text-center">
-                      <div className="flex items-center justify-center gap-1">
-                        {p.featured && <span className="bg-burgundy-50 text-burgundy-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Feat</span>}
-                        {p.bestSeller && <span className="bg-blue-50 text-blue-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Best</span>}
+                      <div className="flex items-center justify-center gap-1 flex-wrap">
+                        {p.featured && <span className="bg-burgundy-50 text-burgundy-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Featured</span>}
+                        {p.bestSeller && <span className="bg-blue-50 text-blue-700 text-[9px] font-semibold px-1.5 py-0.5 rounded">Bestseller</span>}
                         {p.isOffer && <span className="bg-red-50 text-red-600 text-[9px] font-semibold px-1.5 py-0.5 rounded">Offer</span>}
+                        {!p.featured && !p.bestSeller && !p.isOffer && <span className="text-stone-300 text-xs">—</span>}
                       </div>
                     </td>
                     <td className="px-6 py-3 text-center">

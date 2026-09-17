@@ -25,7 +25,7 @@ const NAV_SECTIONS = [
   {
     label: 'Overview',
     items: [
-      { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+      { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     ],
   },
   {
@@ -89,15 +89,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-stone-50 flex">
       {/* Desktop Sidebar */}
-      <aside className={`hidden lg:flex flex-col bg-white border-r border-stone-200 shrink-0 transition-all duration-300 ${collapsed ? 'w-[72px]' : 'w-64'}`}>
+      <aside className={`hidden lg:flex flex-col fixed left-0 top-0 h-screen z-30 bg-white border-r border-stone-200 shrink-0 transition-all duration-300 ${collapsed ? 'w-[72px]' : 'w-64'}`}>
         {/* Logo */}
         <div className={`border-b border-stone-100 shrink-0 ${collapsed ? 'p-4' : 'p-5'}`}>
           {collapsed ? (
-            <Link href="/admin/dashboard" className="block w-10 h-10 bg-burgundy-700 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+            <Link href="/admin" className="block w-10 h-10 bg-burgundy-700 rounded-lg flex items-center justify-center text-white font-bold text-sm">
               KS
             </Link>
           ) : (
-            <Link href="/admin/dashboard" className="block">
+            <Link href="/admin" className="block">
               <span className="text-lg font-bold text-burgundy-700 tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>KS CRACKERS</span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-400 font-medium mt-0.5">Admin Panel</span>
             </Link>
@@ -113,7 +113,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               )}
               <div className="space-y-1">
                 {section.items.map((item) => {
-                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                  const isActive = item.href === '/admin'
+                    ? pathname === '/admin'
+                    : pathname === item.href || pathname.startsWith(item.href + '/');
                   const Icon = item.icon;
                   return (
                     <Link
@@ -173,7 +175,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="absolute inset-0 bg-stone-900/40" onClick={() => setSidebarOpen(false)} />
           <aside className="relative w-72 bg-white h-full flex flex-col shadow-xl">
             <div className="p-5 border-b border-stone-100 flex items-center justify-between">
-              <Link href="/admin/dashboard" onClick={() => setSidebarOpen(false)}>
+              <Link href="/admin" onClick={() => setSidebarOpen(false)}>
                 <span className="text-lg font-bold text-burgundy-700" style={{ fontFamily: 'var(--font-heading)' }}>KS CRACKERS</span>
               </Link>
               <button onClick={() => setSidebarOpen(false)} className="p-1.5 text-stone-400 hover:text-stone-700"><X className="w-5 h-5" /></button>
@@ -184,7 +186,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-400 px-3 mb-2 block">{section.label}</span>
                   <div className="space-y-1">
                     {section.items.map((item) => {
-                      const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                      const isActive = item.href === '/admin'
+                    ? pathname === '/admin'
+                    : pathname === item.href || pathname.startsWith(item.href + '/');
                       const Icon = item.icon;
                       return (
                         <Link key={item.name} href={item.href} onClick={() => setSidebarOpen(false)}
@@ -208,7 +212,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${collapsed ? 'lg:ml-[72px]' : 'lg:ml-64'}`}>
         {/* Top Bar */}
         <header className="bg-white border-b border-stone-200 px-4 lg:px-8 py-3 flex items-center gap-4 shrink-0">
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-stone-500 hover:text-stone-900 hover:bg-stone-100 rounded-lg">

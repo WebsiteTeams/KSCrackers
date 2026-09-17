@@ -81,10 +81,10 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               {[
-                { name: 'Privacy Policy', href: '#' },
-                { name: 'Terms & Conditions', href: '#' },
-                { name: 'Safety Guidelines', href: '/#faq' },
-                { name: 'Delivery Information', href: '/#faq' },
+                { name: 'Privacy Policy', href: '/privacy-policy' },
+                { name: 'Terms & Conditions', href: '/terms' },
+                { name: 'Safety Guidelines', href: '/safety-guidelines' },
+                { name: 'Delivery Information', href: '/delivery-information' },
                 { name: 'Photo Credits', href: '/photo-credits' },
                 { name: 'Admin Portal', href: '/admin/login' },
               ].map((link) => (

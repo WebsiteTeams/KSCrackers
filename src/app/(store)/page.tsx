@@ -46,12 +46,12 @@ export default async function HomePage() {
                 </span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 leading-[1.1]" style={{ fontFamily: 'var(--font-heading)' }}>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1]" style={{ fontFamily: 'var(--font-heading)' }}>
                 Celebrations Begin{' '}
-                <span className="text-burgundy-700">with Trust</span>
+                <span className="text-gold-400">with Trust</span>
               </h1>
 
-              <p className="text-lg text-stone-600 max-w-lg leading-relaxed">
+              <p className="text-lg text-stone-200 max-w-lg leading-relaxed">
                 Premium firecrackers from Sivakasi — crafted with generations of expertise, tested for safety, delivered for joy.
               </p>
 
@@ -65,7 +65,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/#about"
-                  className="text-stone-600 font-medium px-6 py-3.5 rounded-lg text-sm hover:bg-stone-50 transition-colors border border-stone-200"
+                  className="text-white font-medium px-6 py-3.5 rounded-lg text-sm hover:bg-white/10 transition-colors border border-white/30"
                 >
                   Our Story
                 </Link>

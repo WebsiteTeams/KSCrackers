@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const heroImages = [
-  '/images/banners/hero.webp',
-  '/images/banners/festival-offer.webp',
-  '/images/banners/about-sivakasi.webp',
+  '/images/categories/rockets.jpg',
+  '/images/categories/combos.jpg',
+  '/images/categories/sparklers.jpg',
 ];
 
 export default function HeroBackground() {
@@ -39,7 +39,7 @@ export default function HeroBackground() {
           />
         </div>
       ))}
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/40" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/10" />
     </div>
   );
 }

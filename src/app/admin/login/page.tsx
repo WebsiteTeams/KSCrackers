@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
         setErrors({ email: 'Invalid email or password' });
       } else {
         toast.success('Welcome back!');
-        setTimeout(() => { router.push('/admin/dashboard'); router.refresh(); }, 500);
+        setTimeout(() => { router.push('/admin'); router.refresh(); }, 500);
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -56,31 +56,40 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side — Brand Story (hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-[55%] bg-burgundy-700 relative overflow-hidden flex-col justify-between p-12">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 border border-white/30 rounded-full" />
-          <div className="absolute bottom-32 right-16 w-48 h-48 border border-white/20 rounded-full" />
-          <div className="absolute top-1/2 left-1/3 w-96 h-96 border border-white/10 rounded-full" />
+      <div className="hidden lg:flex lg:w-[55%] relative overflow-hidden flex-col justify-between p-12 bg-gradient-to-br from-burgundy-900 via-burgundy-800 to-burgundy-700">
+        {/* Background Pattern — kept clear of the text column on the left */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 opacity-[0.12]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+          <div className="absolute -top-32 -right-24 w-[26rem] h-[26rem] rounded-full bg-gold-500/10 blur-3xl" />
+          <div className="absolute -bottom-24 -right-16 w-80 h-80 rounded-full bg-burgundy-400/20 blur-3xl" />
+          <div className="absolute top-16 right-16 w-56 h-56 border border-gold-300/20 rounded-full" />
+          <div className="absolute top-40 right-40 w-24 h-24 border border-gold-300/25 rounded-full" />
         </div>
 
         <div className="relative z-10">
           <LinkNext href="/" className="inline-block">
             <span className="text-3xl font-bold text-white tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>KS CRACKERS</span>
-            <span className="block text-xs uppercase tracking-widest text-burgundy-200 font-medium mt-1">Premium Sivakasi Fireworks</span>
+            <span className="block text-xs uppercase tracking-widest text-gold-300 font-medium mt-1">Premium Sivakasi Fireworks</span>
           </LinkNext>
         </div>
 
-        <div className="relative z-10 space-y-10">
-          <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
-            Manage Your<br />Store with Clarity
-          </h1>
-
+        <div className="relative z-10 space-y-10 max-w-md">
           <div className="space-y-4">
+            <span className="inline-block h-px w-12 bg-gold-400" />
+            <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
+              Manage Your<br />Store with Clarity
+            </h1>
+            <p className="text-burgundy-100/80 text-sm leading-relaxed">
+              One dashboard for orders, inventory, and revenue — built for the festive rush.
+            </p>
+          </div>
+
+          <div className="relative space-y-5 pl-1">
+            <div className="absolute left-[19px] top-3 bottom-3 w-px bg-gradient-to-b from-gold-400/50 via-gold-400/20 to-transparent" />
             {features.map((feat, i) => (
-              <div key={i} className="flex items-center gap-3 text-white/90">
-                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                  <feat.icon className="w-5 h-5" />
+              <div key={i} className="relative flex items-center gap-3 text-white/90">
+                <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center shrink-0">
+                  <feat.icon className="w-5 h-5 text-gold-300" />
                 </div>
                 <span className="text-sm font-medium">{feat.text}</span>
               </div>
@@ -94,7 +103,7 @@ export default function AdminLoginPage() {
       </div>
 
       {/* Right Side — Login Form */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-cream-50">
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-gradient-to-b from-cream-100 to-cream-50">
         <div className="w-full max-w-md space-y-8">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
@@ -104,81 +113,86 @@ export default function AdminLoginPage() {
             </LinkNext>
           </div>
 
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-stone-900" style={{ fontFamily: 'var(--font-heading)' }}>Admin Access</h2>
-            <p className="text-sm text-stone-500">Sign in to manage your store operations.</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-stone-600 uppercase tracking-wider">Email</label>
-              <div className="relative">
-                <span className="absolute left-3.5 top-3.5 text-stone-400"><Mail className="w-4 h-4" /></span>
-                <input
-                  type="email"
-                  placeholder="admin@kscrackers.com"
-                  value={email}
-                  onChange={(e) => { setEmail(e.target.value); setErrors((prev) => ({ ...prev, email: undefined })); }}
-                  className={`w-full bg-white border rounded-lg py-3 pl-11 pr-4 text-sm text-stone-900 focus:outline-none focus:border-burgundy-500 focus:ring-2 focus:ring-burgundy-500/10 placeholder-stone-400 transition-colors ${errors.email ? 'border-red-400' : 'border-stone-200'}`}
-                />
+          <div className="bg-white border border-stone-200/80 rounded-2xl shadow-xl shadow-burgundy-900/5 p-7 sm:p-9 space-y-7">
+            <div className="space-y-2">
+              <div className="w-11 h-11 rounded-xl bg-burgundy-50 flex items-center justify-center">
+                <Lock className="w-5 h-5 text-burgundy-700" />
               </div>
-              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+              <h2 className="text-2xl font-bold text-stone-900 pt-1" style={{ fontFamily: 'var(--font-heading)' }}>Admin Access</h2>
+              <p className="text-sm text-stone-500">Sign in to manage your store operations.</p>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-stone-600 uppercase tracking-wider">Password</label>
-              <div className="relative">
-                <span className="absolute left-3.5 top-3.5 text-stone-400"><Lock className="w-4 h-4" /></span>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => { setPassword(e.target.value); setErrors((prev) => ({ ...prev, password: undefined })); }}
-                  className={`w-full bg-white border rounded-lg py-3 pl-11 pr-11 text-sm text-stone-900 focus:outline-none focus:border-burgundy-500 focus:ring-2 focus:ring-burgundy-500/10 placeholder-stone-400 transition-colors ${errors.password ? 'border-red-400' : 'border-stone-200'}`}
-                />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-3.5 text-stone-400 hover:text-stone-600">
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-stone-600 uppercase tracking-wider">Email</label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-3.5 text-stone-400"><Mail className="w-4 h-4" /></span>
+                  <input
+                    type="email"
+                    placeholder="admin@kscrackers.com"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setErrors((prev) => ({ ...prev, email: undefined })); }}
+                    className={`w-full bg-stone-50 border rounded-xl py-3 pl-11 pr-4 text-sm text-stone-900 focus:outline-none focus:bg-white focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 placeholder-stone-400 transition-colors ${errors.email ? 'border-red-400' : 'border-stone-200'}`}
+                  />
+                </div>
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
-            </div>
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 text-sm text-stone-600 cursor-pointer select-none">
-                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="rounded border-stone-300 text-burgundy-600 focus:ring-burgundy-500 w-4 h-4" />
-                <span>Remember me</span>
-              </label>
-              <button type="button" className="text-xs text-burgundy-600 hover:text-burgundy-800 font-medium">Forgot password?</button>
-            </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-stone-600 uppercase tracking-wider">Password</label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-3.5 text-stone-400"><Lock className="w-4 h-4" /></span>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setErrors((prev) => ({ ...prev, password: undefined })); }}
+                    className={`w-full bg-stone-50 border rounded-xl py-3 pl-11 pr-11 text-sm text-stone-900 focus:outline-none focus:bg-white focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 placeholder-stone-400 transition-colors ${errors.password ? 'border-red-400' : 'border-stone-200'}`}
+                  />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-3.5 text-stone-400 hover:text-stone-600">
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+              </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-burgundy-700 text-white font-semibold py-3 rounded-lg text-sm hover:bg-burgundy-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Signing in...</span>
-                </>
-              ) : (
-                <span>Log In</span>
-              )}
-            </button>
-          </form>
+              <div className="flex items-center justify-between">
+                <label className="flex items-center gap-2 text-sm text-stone-600 cursor-pointer select-none">
+                  <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="rounded border-stone-300 text-burgundy-600 focus:ring-burgundy-500 w-4 h-4" />
+                  <span>Remember me</span>
+                </label>
+                <button type="button" className="text-xs text-burgundy-600 hover:text-burgundy-800 font-medium">Forgot password?</button>
+              </div>
 
-          {/* Demo Credentials */}
-          <div className="bg-white border border-stone-200 rounded-lg p-4 space-y-2">
-            <span className="text-stone-700 font-semibold uppercase tracking-wider text-[10px] flex items-center gap-2">
-              <ShieldCheck className="w-3.5 h-3.5 text-burgundy-600" /> Demo Credentials
-            </span>
-            <div className="flex justify-between text-xs text-stone-500">
-              <span>Email:</span>
-              <span className="text-stone-900 font-medium">admin@kscrackers.com</span>
-            </div>
-            <div className="flex justify-between text-xs text-stone-500">
-              <span>Password:</span>
-              <span className="text-stone-900 font-medium">admin123</span>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-burgundy-700 to-burgundy-600 text-white font-semibold py-3 rounded-xl text-sm shadow-lg shadow-burgundy-700/20 hover:shadow-burgundy-700/30 hover:from-burgundy-800 hover:to-burgundy-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <span>Log In</span>
+                )}
+              </button>
+            </form>
+
+            {/* Demo Credentials */}
+            <div className="bg-gold-50 border border-gold-200 rounded-xl p-4 space-y-2">
+              <span className="text-copper-700 font-semibold uppercase tracking-wider text-[10px] flex items-center gap-2">
+                <ShieldCheck className="w-3.5 h-3.5" /> Demo Credentials
+              </span>
+              <div className="flex justify-between text-xs text-stone-500">
+                <span>Email:</span>
+                <span className="text-stone-900 font-medium">admin@kscrackers.com</span>
+              </div>
+              <div className="flex justify-between text-xs text-stone-500">
+                <span>Password:</span>
+                <span className="text-stone-900 font-medium">admin123</span>
+              </div>
             </div>
           </div>
 
